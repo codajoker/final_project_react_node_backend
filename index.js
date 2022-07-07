@@ -1,27 +1,10 @@
-const mongoose = require("mongoose");
+const express = require('express')
+const path = require('path')
+const PORT = process.env.PORT || 5000
 
-const app = require("./app");
-require("dotenv").config();
-const {DB_HOST} = process.env;
-
-const connection = mongoose
-  .connect(DB_HOST, {
-    promiseLibrary: global.Promise,
-  })
-  .then(() => console.log("Database connection successful"))
-  .catch((err) => {
-    console.log(err.message);
-    process.exit(1);
-  });
-
-connection
-  .then(() => {
-    app.listen(5000, function () {
-      console.log(process.env.NODE_ENV);
-
-      console.log(`Server running. Use our API on port: 5000`);
-    });
-  })
-  .catch((err) =>
-    console.log(`Server not running. Error message: ${err.message}`)
-  );
+express()
+  .use(express.static(path.join(__dirname, 'public')))
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('pages/index'))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
