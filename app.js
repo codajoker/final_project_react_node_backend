@@ -11,11 +11,6 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-  app.get('/', (req, res) => res.send(cool()))
-
-  app.get('/cool', (req, res) => res.send(cool()))
-const path = require('path')
-
 
 
 module.exports = app;
