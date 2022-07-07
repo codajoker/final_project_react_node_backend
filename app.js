@@ -1,6 +1,7 @@
 const logger = require("morgan");
 const cors = require("cors");
 const cool = require('cool-ascii-faces');
+const express = require('express')
 
 const app = express();
 
@@ -13,7 +14,6 @@ app.use(express.urlencoded({ extended: false }));
 //   app.get('/', (req, res) => res.send(cool()))
 
 //   app.get('/cool', (req, res) => res.send(cool()))
-const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 
@@ -22,6 +22,5 @@ app
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 module.exports = app;
