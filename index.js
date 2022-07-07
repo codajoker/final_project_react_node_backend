@@ -17,7 +17,7 @@ const connection = mongoose
 
 connection
   .then(() => {
-    app.listen(5000, function () {
+    app.listen(process.env.PORT || 5000, function () {
       console.log(process.env.NODE_ENV);
 
       console.log(`Server running. Use our API on port: 5000`);
