@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const app = require("./app");
 require("dotenv").config();
-const uriDb = process.env.DB_HOST;
+const {DB_HOST} = process.env;
 
 const connection = mongoose
-  .connect(uriDb, {
+  .connect(DB_HOST, {
     promiseLibrary: global.Promise,
   })
   .then(() => console.log("Database connection successful"))
