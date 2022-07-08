@@ -3,7 +3,10 @@ const cors = require("cors");
 const cool = require("cool-ascii-faces");
 const express = require("express");
 const authRouter = require("./routes/api/auth");
+
+const caloriesRouter = require("./routes/api/calories");
 // const productRouter = require("./routes/api/product");
+
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -13,7 +16,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/users", authRouter);
+
+app.use("/calories", caloriesRouter);
 // app.use("/product", productRouter);//
+
 // Это пример использования модуля cool-ascii-faces
 
 app.get("/cool", (req, res) => res.send(cool()));
