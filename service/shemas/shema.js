@@ -8,14 +8,13 @@ const users = new Schema(
       type: String,
       required: [true, "Password is required"],
       minlength: 6,
-      maxlength: 30
     },
     email: {
       type: String,
       required: [true, "Email is required"],
       unique: true,
     },
-  
+
     token: {
       type: String,
       default: null,
@@ -25,12 +24,29 @@ const users = new Schema(
       default: false,
     },
     verificationToken: {
-        type: String,
-        default: null,
+      type: String,
+      default: null,
     },
     name: {
       type: String,
-    }
+    },
+    height: {
+      type: Number,
+      min: [1, "Height must be greater than 1"],
+    },
+    age: {
+      type: Number,
+    },
+    currentWeight: {
+      type: Number,
+    },
+    goalWeight: {
+      type: Number,
+    },
+    bloodType: {
+      type: Number,
+      default: null,
+    },
   },
   {
     versionKey: false,
@@ -47,7 +63,7 @@ const joiSchemaRegistration = Joi.object({
   name: Joi.string().required(),
 });
 const joiSchemaLogin = Joi.object({
-  password: Joi.string().min(6).max(30).required(),
+  password: Joi.string().min(6).required(),
   email: Joi.string()
     .email({
       minDomainSegments: 2,
@@ -55,9 +71,21 @@ const joiSchemaLogin = Joi.object({
     })
     .required(),
   token: Joi.string(),
+});
 
+const JoiSchemaCalories = Joi.object({
+  height: Joi.number().min(1),
+  age: Joi.number(),
+  currentWeight: Joi.number(),
+  goalWeight: Joi.number(),
+  bloodType: Joi.number(),
 });
 
 const User = mongoose.model("user", users);
 
-module.exports = { User, joiSchemaRegistration,joiSchemaLogin  };
+module.exports = {
+  User,
+  joiSchemaRegistration,
+  joiSchemaLogin,
+  JoiSchemaCalories,
+};
