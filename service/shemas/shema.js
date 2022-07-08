@@ -25,14 +25,26 @@ const users = new Schema(
     verificationToken: {
         type: String,
         default: null,
-        },
-    
+    },
+    name: {
+      type: String,
+    }
   },
   {
     versionKey: false,
   }
 );
-const joiSchema = Joi.object({
+const joiSchemaRegistration = Joi.object({
+  password: Joi.string().min(6).max(30).required(),
+  email: Joi.string()
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ["com", "net"] },
+    })
+    .required(),
+  name: Joi.string().required(),
+});
+const joiSchemaLogin = Joi.object({
   password: Joi.string().min(6).max(30).required(),
   email: Joi.string()
     .email({
@@ -41,8 +53,9 @@ const joiSchema = Joi.object({
     })
     .required(),
   token: Joi.string(),
+
 });
 
 const User = mongoose.model("user", users);
 
-module.exports = { User, joiSchema,  };
+module.exports = { User, joiSchemaRegistration,joiSchemaLogin  };
