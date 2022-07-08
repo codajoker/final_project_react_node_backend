@@ -1,8 +1,9 @@
 const logger = require("morgan");
 const cors = require("cors");
-const cool = require('cool-ascii-faces');
-const express = require('express')
-const authRouter = require('./routes/api/auth');
+const cool = require("cool-ascii-faces");
+const express = require("express");
+const authRouter = require("./routes/api/auth");
+const caloriesRouter = require("./routes/api/calories");
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -12,9 +13,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/users", authRouter);
+app.use("/calories", caloriesRouter);
 // Это пример использования модуля cool-ascii-faces
 
-  app.get('/cool', (req, res) => res.send(cool()))
+app.get("/cool", (req, res) => res.send(cool()));
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
