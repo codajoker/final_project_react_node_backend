@@ -7,6 +7,8 @@ const users = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
+      minlength: 6,
+      maxlength: 30
     },
     email: {
       type: String,

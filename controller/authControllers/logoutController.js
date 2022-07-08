@@ -1,6 +1,6 @@
 const { User } = require("../../service/shemas/shema");
 
-const logOutController = async (req, res, next) => {
+const logOutController = async (req, res,) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate({ _id }, { token: null });
 

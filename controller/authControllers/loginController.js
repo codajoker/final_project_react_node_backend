@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { SECRET_KEY } = process.env;
-const loginController = async (req, res, next) => {
+const loginController = async (req, res,) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   const hashPassword = bcrypt.compareSync(password, user.password);
