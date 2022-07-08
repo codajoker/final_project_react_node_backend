@@ -7,7 +7,6 @@ const { validationAuth } = require("../../service/validations/validations");
 const {
   joiSchemaRegistration,
   joiSchemaLogin,
-  JoiSchemaCalories,
 } = require("../../service/shemas/shema");
 
 const { ctrlWrapper } = require("../../middleware/ctrlWrapper");
@@ -20,10 +19,6 @@ const {
   logOutController,
 } = require("../../controller/authControllers/logoutController");
 
-const {
-  caloriesController,
-} = require("../../controller/authControllers/caloriesController");
-
 route.post(
   "/register",
   validationAuth(joiSchemaRegistration),
@@ -35,12 +30,5 @@ route.post(
   ctrlWrapper(loginController)
 );
 route.get("/logout", auth, ctrlWrapper(logOutController));
-
-// create public endpoin for colories and products
-route.post(
-  "/calories",
-  validationAuth(JoiSchemaCalories),
-  ctrlWrapper(caloriesController)
-);
 
 module.exports = route;
