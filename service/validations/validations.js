@@ -1,5 +1,5 @@
 
-export const validationAuth = (schema) => {
+ const validationAuth = (schema) => {
     return (req, res, next) => {
         const { error } = schema.validate(req.body);
         if (error) {
@@ -8,3 +8,4 @@ export const validationAuth = (schema) => {
         next();
     };
 }
+module.exports={validationAuth};
