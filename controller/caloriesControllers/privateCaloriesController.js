@@ -29,27 +29,34 @@ const privateCaloriesController = async (req, res) => {
     ...new Set(productList.map((item) => item.categories.toString())),
   ];
 
-  const user = await User.findById(_id);
-  try {
-    user.notAllowedFood = uniqCategories;
-    user.dailyCalories = dailyCalories;
-    await user.save();
+  const user = await User.findByIdAndUpdate(
+    _id,
+    {
+      notAllowedFood: uniqCategories,
+      dailyCalories: dailyCalories,
+      age,
+      height,
+      currentWeight,
+      goalWeight,
+      bloodType,
+    },
+    { new: true }
+  );
 
-    if (!user) {
-      throw Error("User not found");
-    }
-    return res.status(200).json({
-      status: "success",
-      code: 200,
-      data: {
-        dailyCalories,
-        uniqCategories,
-        message: "User updated successfully",
-      },
-    });
-  } catch (error) {
-    throw Error(error);
-  }
+  return res.status(200).json({
+    status: "success",
+    code: 200,
+    data: {
+      dailyCalories,
+      age,
+      height,
+      currentWeight,
+      goalWeight,
+      bloodType,
+      uniqCategories,
+      message: "User updated successfully",
+    },
+  });
 };
 
 module.exports = { privateCaloriesController };
