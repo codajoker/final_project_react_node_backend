@@ -1,13 +1,15 @@
 const { Product } = require("../../service/shemas/productSchema");
+const { countlDailyCalories } = require("../../helpers");
 
 const caloriesController = async (req, res) => {
   const { age, height, currentWeight, goalWeight, bloodType } = req.body;
 
-  const loseWeight =
-    10 * currentWeight +
-    6.25 * height -
-    5 * age -
-    10 * (currentWeight - goalWeight);
+  const dailyCalories = countlDailyCalories(
+    currentWeight,
+    height,
+    age,
+    goalWeight
+  );
 
   const result = await Product.find(
     {
@@ -15,6 +17,10 @@ const caloriesController = async (req, res) => {
     },
     { categories: 1 }
   );
+
+  const uniqCategories = [
+    ...new Set(result.map((item) => item.categories.toString())),
+  ];
 
   if (!result) {
     throw Error("result not found");
@@ -24,8 +30,8 @@ const caloriesController = async (req, res) => {
     status: "success",
     code: 200,
     data: {
-      loseWeight,
-      result,
+      dailyCalories,
+      uniqCategories,
       message: "Calories counted successfully",
     },
   });
