@@ -4,7 +4,7 @@ function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-const searchProductByQuery = async (req, res, next) => {
+const searchProductByQuery = async (req, res) => {
   const { query } = req.params;
   const escapedQuery = escapeRegExp(query);
 
