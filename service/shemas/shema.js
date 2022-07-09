@@ -47,6 +47,14 @@ const users = new Schema(
       type: Number,
       default: null,
     },
+    notAllowedFood: {
+      type: Array,
+      default: [],
+    },
+    dailyCalories: {
+      type: Number,
+      default: null,
+    },
   },
   {
     versionKey: false,
@@ -79,6 +87,8 @@ const JoiSchemaCalories = Joi.object({
   currentWeight: Joi.number(),
   goalWeight: Joi.number(),
   bloodType: Joi.number(),
+  notAllowedFood: Joi.array(),
+  dailyCalories: Joi.number(),
 });
 
 const User = mongoose.model("user", users);

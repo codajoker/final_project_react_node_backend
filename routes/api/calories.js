@@ -1,4 +1,3 @@
-// create public endpoin for calories and products
 const router = require("express").Router();
 
 const { validationAuth } = require("../../service/validations/validations");
@@ -8,6 +7,8 @@ const {
   caloriesController,
 } = require("../../controller/caloriesControllers/caloriesController");
 
+const { auth } = require("../../middleware/auth");
+// create public endpoin for calories and products
 router.post(
   "/",
   validationAuth(JoiSchemaCalories),
