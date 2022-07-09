@@ -5,7 +5,7 @@ const express = require("express");
 const authRouter = require("./routes/api/auth");
 
 const caloriesRouter = require("./routes/api/calories");
-// const productRouter = require("./routes/api/product");
+const productRouter = require("./routes/api/product");
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/users", authRouter);
 
 app.use("/calories", caloriesRouter);
-// app.use("/product", productRouter);//
+app.use("/product", productRouter); //
 
 // Это пример использования модуля cool-ascii-faces
 
