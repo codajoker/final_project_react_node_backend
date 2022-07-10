@@ -2,6 +2,7 @@
 const router = require("express").Router();
 
 const { ctrlWrapper } = require("../../middleware/ctrlWrapper");
+const { auth } = require("../../middleware/auth");
 
 const {
   searchProductByQuery,
@@ -11,6 +12,6 @@ const {
 } = require("../../controller/productController/addDiaryFood");
 
 router.get("/:query", ctrlWrapper(searchProductByQuery));
-router.post("/addDiaryFood", addDiaryFood);
+router.post("/addDiaryFood", auth, ctrlWrapper(addDiaryFood));
 
 module.exports = router;
