@@ -4,10 +4,8 @@ const { User } = require("../../service/shemas/shema");
 const dayInfoController = async (req, res) => {
   const { day } = req.body;
   const { _id } = req.user;
-  console.log(" _id", _id);
 
   const user = await User.findById(_id);
-  console.log(user);
 
   if (!user) {
     throw Error("User not found");
