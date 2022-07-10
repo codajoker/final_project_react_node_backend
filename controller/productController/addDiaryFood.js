@@ -22,7 +22,7 @@ const addDiaryFood = async (req, res) => {
         calories_in_day: calories_kcal,
         owner: _id,
       });
-      res.status(200).json({ message: "Day created, product added to diary" });
+      res.status(200).json({data:{ message: "Day created, product added to diary" }});
     } else {
       const { meal, calories_in_day } = diaryDay;
       const { calories, weight } = mealInDay;
@@ -33,7 +33,7 @@ const addDiaryFood = async (req, res) => {
         meal: newMealInday,
         calories_in_day: caloriesResult,
       });
-      res.status(200).json({ message: "Product added to diary" });
+      res.status(200).json({data:{ message: "Product added to diary" }});
     }
   }
 };
