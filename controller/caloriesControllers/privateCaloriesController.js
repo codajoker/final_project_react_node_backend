@@ -33,7 +33,7 @@ const privateCaloriesController = async (req, res) => {
     _id,
     {
       notAllowedFood: uniqCategories,
-      dailyCalories: dailyCalories,
+      dailyCalories: dailyCalories.toFixed(),
       age,
       height,
       currentWeight,
@@ -47,7 +47,7 @@ const privateCaloriesController = async (req, res) => {
     status: "success",
     code: 200,
     data: {
-      dailyCalories,
+      dailyCalories: dailyCalories.toFixed(),
       age,
       height,
       currentWeight,

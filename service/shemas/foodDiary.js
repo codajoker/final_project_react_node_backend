@@ -1,10 +1,6 @@
 const { Schema, model } = require("mongoose");
 
 const mealSchema = new Schema({
-  id: {
-    type: Number,
-    required: [true, "ID is required"],
-  },
   title: {
     type: String,
     required: [true, "Title is required"],
@@ -15,14 +11,13 @@ const mealSchema = new Schema({
   },
   calories_kcal: {
     type: Number,
-    required: [true, "Calories in kcal is required"],
   },
 });
 
 const foodDiarySchema = Schema(
   {
     diary_day: {
-      type: [String],
+      type: String,
       required: [true, "Dayry day is required"],
     },
     meal: [mealSchema],
@@ -38,8 +33,8 @@ const foodDiarySchema = Schema(
   { versionKey: false, timestamps: true }
 );
 
-const foodDiary = model("foodDiary", foodDiarySchema);
+const FoodDiary = model("fooddiar", foodDiarySchema);
 
 module.exports = {
-  foodDiary,
+  FoodDiary,
 };
