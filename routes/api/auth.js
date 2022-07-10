@@ -23,6 +23,9 @@ const {
 const {
   privateCaloriesController,
 } = require("../../controller/caloriesControllers/privateCaloriesController");
+const {
+  dayInfoController,
+} = require("../../controller/authControllers/dayInfoController");
 
 route.post(
   "/register",
@@ -42,6 +45,14 @@ route.post(
   auth,
   validationAuth(JoiSchemaCalories),
   ctrlWrapper(privateCaloriesController)
+);
+
+// create private endpoin for user's day info
+route.get(
+  "/dayinfo",
+  auth,
+  // validationAuth(JoiSchemaDoodDiary),
+  ctrlWrapper(dayInfoController)
 );
 
 module.exports = route;
