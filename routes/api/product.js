@@ -10,8 +10,12 @@ const {
 const {
   addDiaryFood,
 } = require("../../controller/productController/addDiaryFood");
+const {
+  delDiaryFood,
+} = require("../../controller/productController/delDiaryFood");
 
 router.get("/:query", ctrlWrapper(searchProductByQuery));
 router.post("/addDiaryFood", auth, ctrlWrapper(addDiaryFood));
+router.delete("/delDiaryfood", auth, ctrlWrapper(delDiaryFood));
 
 module.exports = router;
