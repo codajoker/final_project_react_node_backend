@@ -34,11 +34,6 @@
                 ],
                 "summary": "Register new user",
                 "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
                 "requestBody": {
                     "description": "Registration's object",
                     "required": true,
@@ -66,6 +61,116 @@
                     },
                     "500": {
                         "description": "User already exists"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Login user",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Login's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logined successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Email or password is wrong"
+                    },
+                    "500": {
+                        "description": "Cannot read properties of null (reading 'password')"
+                    }
+                }
+            }
+        },
+        "/users/logout": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Logout user",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User logout successfully",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "jwt expired"
+                    }
+                }
+            }
+        },
+        "/users/dayinfo": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User day information",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Day",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "string",
+                                "description": "Day",
+                                "example": "01.07.2022",
+                                "format": "date"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Information received successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DayinfoResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "Day not found"
                     }
                 }
             }
@@ -131,48 +236,140 @@
                     }
                 }
             },
-            "User": {
+            "LoginRequest": {
                 "type": "object",
+                "required": [
+                    "email",
+                    "password"
+                ],
                 "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
                     "email": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "email",
+                        "description": "User's email"
                     },
                     "password": {
-                        "type": "string"
-                    },
-                    "createdAt": {
                         "type": "string",
-                        "format": "date-time"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
+                        "description": "User's password",
+                        "minLength": 6
                     }
+                },
+                "example": {
+                    "email": "ola@example.com",
+                    "password": "123456"
                 }
             },
-            "UserList": {
+            "LoginResponse": {
                 "type": "object",
                 "properties": {
-                    "users": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/User"
+                    "status": {
+                        "type": "string",
+                        "description": "Success",
+                        "example": "success"
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "token": {
+                                "type": "string",
+                                "description": "JWT token"
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "User's email"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "User's name"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "status": "success",
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2Q1NjU2MzMyNWViYmRhZWY2NWU1ZiIsImlhdCI6MTY1NzYzNTAzMSwiZXhwIjoxNjU3NjM4NjMxfQ.8Y2K6jtuVUIeedsdJZXdpVxM2hsFK0N04C7iQvgcBrM",
+                    "email": "ola@example.com",
+                    "name": "Olala"
+                }
+            },
+            "DayinfoResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Success",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "200",
+                        "example": 200
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "dailyNormCalories": {
+                                "type": "number",
+                                "description": "Daily norm calories",
+                                "example": 2000
+                            },
+                            "totalDayCalories": {
+                                "type": "number",
+                                "description": "Total day calories",
+                                "example": 1500
+                            },
+                            "difference": {
+                                "type": "number",
+                                "description": "Difference between daily norm calories and total day calories",
+                                "example": 500
+                            },
+                            "percent_of_normal": {
+                                "type": "number",
+                                "description": "Percent of normal",
+                                "example": 50
+                            },
+                            "foodList": {
+                                "type": "array",
+                                "description": "User food list",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "title": {
+                                            "type": "string",
+                                            "description": "Food name"
+                                        },
+                                        "weight_g": {
+                                            "type": "number",
+                                            "description": "Food weight in grams",
+                                            "example": 70
+                                        },
+                                        "calories_kcal": {
+                                            "type": "number",
+                                            "description": "Food calories",
+                                            "example": 100
+                                        },
+                                        "_id": {
+                                            "type": "string",
+                                            "description": "Backend-generated unique identifier"
+                                        }
+                                    }
+                                }
+                            },
+                            "message": {
+                                "type": "string",
+                                "description": "Diary day info",
+                                "example": "Information received successfully"
+                            }
                         }
                     }
                 }
             }
         },
         "securitySchemes": {
-            "BearerAuth": {
+            "Bearer": {
                 "type": "http",
                 "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                "scheme": "bearer",
+                "scheme": "Bearer",
                 "bearerFormat": "JWT"
             }
         }
