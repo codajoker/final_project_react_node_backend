@@ -30,7 +30,7 @@ const caloriesController = async (req, res) => {
     status: "success",
     code: 200,
     data: {
-      dailyCalories,
+      dailyCalories: dailyCalories.toFixed(),
       uniqCategories,
       message: "Calories counted successfully",
     },
