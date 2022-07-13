@@ -25,7 +25,8 @@ const loginController = async (req, res,) => {
     data: {
       token: token,
       email: email,
-        name: user.name,},
+      name: user.name,
+    dailyCalories: user.dailyCalories,},
   });
 };
 module.exports = { loginController };
