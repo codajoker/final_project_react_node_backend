@@ -48,7 +48,7 @@ route.post(
 );
 
 // create private endpoin for user's day info
-route.get(
+route.post(
   "/dayinfo",
   auth,
   // validationAuth(JoiSchemaDoodDiary),
