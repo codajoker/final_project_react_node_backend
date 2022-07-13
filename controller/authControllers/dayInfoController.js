@@ -16,15 +16,15 @@ const dayInfoController = async (req, res) => {
     diary_day: day,
   });
 
+  if (!findedListDay) {
+    throw Error("Daylist not found");
+  }
+
   const foodList = findedListDay.meal;
   const totalDayCalories = foodList.reduce(
     (acc, item) => acc + item.calories_kcal,
     0
   );
-
-  if (findedListDay.length === 0) {
-    throw Error("Day not found");
-  }
 
   return res.status(200).json({
     status: "success",

@@ -16,24 +16,38 @@ const addDiaryFood = async (req, res) => {
     if (!diaryDay) {
       const { calories, weight } = mealInDay;
       const calories_kcal = caloriesMealCaluculator(weight_g, weight, calories);
-      await FoodDiary.create({
+      const foodData = await FoodDiary.create({
         diary_day,
         meal: [{ title, weight_g, calories_kcal }],
         calories_in_day: calories_kcal,
         owner: _id,
       });
-      res.status(200).json({data:{ message: "Day created, product added to diary" }});
+      res.status(200).json({
+        data: {
+          foodData: foodData.meal[0],
+          message: "Day created, product added to diary",
+        },
+      });
     } else {
       const { meal, calories_in_day } = diaryDay;
       const { calories, weight } = mealInDay;
       const calories_kcal = caloriesMealCaluculator(weight_g, weight, calories);
       const caloriesResult = calories_in_day + calories_kcal;
       const newMealInday = [{ title, weight_g, calories_kcal }, ...meal];
-      await FoodDiary.findByIdAndUpdate(diaryDay._id, {
-        meal: newMealInday,
-        calories_in_day: caloriesResult,
+      const foodData = await FoodDiary.findByIdAndUpdate(
+        diaryDay._id,
+        {
+          meal: newMealInday,
+          calories_in_day: caloriesResult,
+        },
+        { new: true }
+      );
+      res.status(200).json({
+        data: {
+          message: "Product added to diary",
+          foodData: foodData.meal[0],
+        },
       });
-      res.status(200).json({data:{ message: "Product added to diary" }});
     }
   }
 };
