@@ -2,7 +2,7 @@ const { FoodDiary } = require("../../service/shemas/foodDiary");
 const { User } = require("../../service/shemas/shema");
 
 const dayInfoController = async (req, res) => {
-  const { day } = req.body;
+  const { day } = req.query;
   const { _id } = req.user;
 
   const user = await User.findById(_id);
