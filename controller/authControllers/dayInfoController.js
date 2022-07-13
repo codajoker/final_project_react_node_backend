@@ -16,7 +16,7 @@ const dayInfoController = async (req, res) => {
     diary_day: day,
   });
 
-  const foodList = findedDay.map((item) => item.meal[0]);
+  const foodList = findedDay.map((item) => item.meal);
   const totalDayCalories = foodList.reduce(
     (acc, item) => acc + item.calories_kcal,
     0
