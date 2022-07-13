@@ -11,13 +11,13 @@ const dayInfoController = async (req, res) => {
     throw Error("User not found");
   }
 
-  const findedDay = await FoodDiary.findOne({
+  const findedDay = await FoodDiary.find({
     owner: _id,
     diary_day: day,
   });
 
-  // const foodList = findedDay.map((item) => item.meal[0]);
-  const totalDayCalories = findedDay.meal.reduce(
+  const foodList = findedDay.map((item) => item.meal[0]);
+  const totalDayCalories = foodList.reduce(
     (acc, item) => acc + item.calories_kcal,
     0
   );
@@ -37,7 +37,7 @@ const dayInfoController = async (req, res) => {
         (totalDayCalories / user.dailyCalories) *
         100
       ).toFixed(),
-      foodList: findedDay.meal,
+      foodList: foodList.meal,
       message: "Diary day info",
     },
   });
