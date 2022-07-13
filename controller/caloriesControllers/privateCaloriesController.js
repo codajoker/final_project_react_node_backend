@@ -16,7 +16,7 @@ const privateCaloriesController = async (req, res) => {
 
   const productList = await Product.find(
     {
-      [`groupBloodNotAllowed.${bloodType}`]: false,
+      [`groupBloodNotAllowed.${bloodType}`]: true,
     },
     { categories: 1 }
   );

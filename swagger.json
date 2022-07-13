@@ -130,7 +130,7 @@
             }
         },
         "/users/dayinfo": {
-            "get": {
+            "post": {
                 "tags": [
                     "User"
                 ],
@@ -171,6 +171,140 @@
                     },
                     "500": {
                         "description": "Day not found"
+                    }
+                }
+            }
+        },
+        "/users/calories": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User dayly norm calories",
+                "parameters": [],
+                "requestBody": {
+                    "description": "User's parameters object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "description": "User's parameters object",
+                                "required": [
+                                    "height",
+                                    "currentWeight",
+                                    "age",
+                                    "goalWeight",
+                                    "bloodType"
+                                ],
+                                "properties": {
+                                    "currentWeight": {
+                                        "type": "integer",
+                                        "description": "Current weight",
+                                        "example": "75",
+                                        "format": "int32"
+                                    },
+                                    "height": {
+                                        "type": "integer",
+                                        "description": "User's height",
+                                        "example": "175",
+                                        "format": "int32"
+                                    },
+                                    "age": {
+                                        "type": "integer",
+                                        "description": "User's age",
+                                        "example": "20",
+                                        "format": "int32"
+                                    },
+                                    "goalWeight": {
+                                        "type": "integer",
+                                        "description": "User's goal weight",
+                                        "example": "50",
+                                        "format": "int32"
+                                    },
+                                    "bloodType": {
+                                        "type": "enteger",
+                                        "description": "User's blood type",
+                                        "example": "1",
+                                        "format": "int32"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daily norm calories counted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "User's daily norm calories + user's parameters",
+                                    "properties": {
+                                        "notAllowedFood": {
+                                            "type": "array",
+                                            "description": "Not allowed food",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "Not allowed food",
+                                                "example": "Pizza"
+                                            }
+                                        },
+                                        "dailyCalories": {
+                                            "type": "integer",
+                                            "description": "User's daily norm calories",
+                                            "example": "2000",
+                                            "format": "int32"
+                                        },
+                                        "currentWeight": {
+                                            "type": "integer",
+                                            "description": "Current weight",
+                                            "example": "75",
+                                            "format": "int32"
+                                        },
+                                        "height": {
+                                            "type": "integer",
+                                            "description": "User's height",
+                                            "example": "175",
+                                            "format": "int32"
+                                        },
+                                        "age": {
+                                            "type": "integer",
+                                            "description": "User's age",
+                                            "example": "20",
+                                            "format": "int32"
+                                        },
+                                        "goalWeight": {
+                                            "type": "integer",
+                                            "description": "User's goal weight",
+                                            "example": "50",
+                                            "format": "int32"
+                                        },
+                                        "bloodType": {
+                                            "type": "enteger",
+                                            "description": "User's blood type",
+                                            "example": "1",
+                                            "format": "int32"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "age, height, currentWeight, goalWeight, bloodType is required"
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "jwt expired"
                     }
                 }
             }
