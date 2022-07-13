@@ -24,6 +24,14 @@
         {
             "name": "User",
             "description": "Users endpoints"
+        },
+        {
+            "name": "Calories",
+            "description": "Calories endpoints"
+        },
+        {
+            "name": "Product",
+            "description": "Products endpoints"
         }
     ],
     "paths": {
@@ -180,7 +188,7 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "User dayly norm calories",
+                "summary": "User daily norm calories",
                 "parameters": [],
                 "requestBody": {
                     "description": "User's parameters object",
@@ -188,47 +196,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
-                                "description": "User's parameters object",
-                                "required": [
-                                    "height",
-                                    "currentWeight",
-                                    "age",
-                                    "goalWeight",
-                                    "bloodType"
-                                ],
-                                "properties": {
-                                    "currentWeight": {
-                                        "type": "integer",
-                                        "description": "Current weight",
-                                        "example": "75",
-                                        "format": "int32"
-                                    },
-                                    "height": {
-                                        "type": "integer",
-                                        "description": "User's height",
-                                        "example": "175",
-                                        "format": "int32"
-                                    },
-                                    "age": {
-                                        "type": "integer",
-                                        "description": "User's age",
-                                        "example": "20",
-                                        "format": "int32"
-                                    },
-                                    "goalWeight": {
-                                        "type": "integer",
-                                        "description": "User's goal weight",
-                                        "example": "50",
-                                        "format": "int32"
-                                    },
-                                    "bloodType": {
-                                        "type": "enteger",
-                                        "description": "User's blood type",
-                                        "example": "1",
-                                        "format": "int32"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/CaloriesRequest"
                             }
                         }
                     }
@@ -305,6 +273,327 @@
                     },
                     "500": {
                         "description": "jwt expired"
+                    }
+                }
+            }
+        },
+        "/calories": {
+            "post": {
+                "tags": [
+                    "Calories"
+                ],
+                "summary": "User daily norm calories",
+                "parameters": [],
+                "requestBody": {
+                    "description": "User's parameters object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CaloriesRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Daily norm calories counted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Success",
+                                            "example": "success"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "description": "200",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "description": "User's daily norm calories + user's not allowed food list",
+                                            "properties": {
+                                                "notAllowedFood": {
+                                                    "type": "array",
+                                                    "description": "Not allowed food",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "description": "Not allowed food",
+                                                        "example": "Pizza"
+                                                    }
+                                                },
+                                                "dailyCalories": {
+                                                    "type": "integer",
+                                                    "description": "User's daily norm calories",
+                                                    "example": "2000",
+                                                    "format": "int32"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "age, height, currentWeight, goalWeight, bloodType is required"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/product/:query": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Search product",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "query",
+                        "description": "Product's name",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Каша 7 злаків Маtti"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product found successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "products": {
+                                            "type": "array",
+                                            "description": "Products",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "title": {
+                                                        "type": "object",
+                                                        "description": "Product's title",
+                                                        "properties": {
+                                                            "ua": {
+                                                                "type": "string",
+                                                                "description": "Product's title in Ukrainian",
+                                                                "example": "Каша 7 злаків Маtti"
+                                                            }
+                                                        }
+                                                    },
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "description": "Product's id generated by mongoDB",
+                                                        "example": "5d51694802b2373622ff556b"
+                                                    },
+                                                    "categories": {
+                                                        "type": "array",
+                                                        "description": "Product's categories",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "description": "Product's category",
+                                                            "example": "зерновые"
+                                                        }
+                                                    },
+                                                    "weight": {
+                                                        "type": "integer",
+                                                        "description": "Product's weight",
+                                                        "example": "100",
+                                                        "format": "int32"
+                                                    },
+                                                    "calories": {
+                                                        "type": "integer",
+                                                        "description": "Product's calories",
+                                                        "example": "100",
+                                                        "format": "int32"
+                                                    },
+                                                    "groupBloodNotAllowed": {
+                                                        "type": "array",
+                                                        "description": "Product's group blood not allowed",
+                                                        "items": {
+                                                            "type": "boolean",
+                                                            "description": "Product's group blood not allowed",
+                                                            "example": "true"
+                                                        },
+                                                        "example": [
+                                                            null,
+                                                            true,
+                                                            false,
+                                                            true,
+                                                            false
+                                                        ]
+                                                    },
+                                                    "__v": {
+                                                        "type": "integer",
+                                                        "description": "Product's version",
+                                                        "example": "0",
+                                                        "format": "int32"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "invalid token or jwt expired"
+                    }
+                }
+            }
+        },
+        "/product/addDiaryFood": {
+            "post": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Add product to diary",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Product's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductDiaryRequest"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "description": "Product's object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "description": "Product added to diary",
+                                                    "example": "Product added to diary"
+                                                },
+                                                "foodData": {
+                                                    "type": "object",
+                                                    "description": "Product's object",
+                                                    "properties": {
+                                                        "title": {
+                                                            "type": "string",
+                                                            "description": "Product's title",
+                                                            "example": "Каша 7 злаків Маtti"
+                                                        },
+                                                        "weight_g": {
+                                                            "type": "integer",
+                                                            "description": "Product's weight",
+                                                            "example": "100",
+                                                            "format": "int32"
+                                                        },
+                                                        "calories_kcal": {
+                                                            "type": "integer",
+                                                            "description": "Product's calories",
+                                                            "example": "450",
+                                                            "format": "int32"
+                                                        },
+                                                        "_id": {
+                                                            "type": "string",
+                                                            "description": "Product's id generated by mongoDB",
+                                                            "example": "5d51694802b2373622ff556b"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "invalid token or jwt expired"
+                    }
+                }
+            }
+        },
+        "/product/delDiaryfood": {
+            "delete": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Delete product from diary",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Product's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DeleteProductRequest"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "description": "Product's object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "description": "Product delleted in diary",
+                                                    "example": "Product delleted in diary"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "invalid token or jwt expired"
                     }
                 }
             }
@@ -493,6 +782,112 @@
                                 "type": "string",
                                 "description": "Diary day info",
                                 "example": "Information received successfully"
+                            }
+                        }
+                    }
+                }
+            },
+            "CaloriesRequest": {
+                "type": "object",
+                "description": "User's parameters object",
+                "required": [
+                    "height",
+                    "currentWeight",
+                    "age",
+                    "goalWeight",
+                    "bloodType"
+                ],
+                "properties": {
+                    "currentWeight": {
+                        "type": "integer",
+                        "description": "Current weight",
+                        "example": "75",
+                        "format": "int32"
+                    },
+                    "height": {
+                        "type": "integer",
+                        "description": "User's height",
+                        "example": "175",
+                        "format": "int32"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "description": "User's age",
+                        "example": "20",
+                        "format": "int32"
+                    },
+                    "goalWeight": {
+                        "type": "integer",
+                        "description": "User's goal weight",
+                        "example": "50",
+                        "format": "int32"
+                    },
+                    "bloodType": {
+                        "type": "enteger",
+                        "description": "User's blood type",
+                        "example": "1",
+                        "format": "int32"
+                    }
+                }
+            },
+            "ProductDiaryRequest": {
+                "type": "object",
+                "description": "User's parameters object",
+                "required": [
+                    "diary_day",
+                    "meal"
+                ],
+                "properties": {
+                    "diary_day": {
+                        "type": "string",
+                        "description": "Diary day",
+                        "example": "01.10.2022"
+                    },
+                    "meal": {
+                        "type": "object",
+                        "description": "Meal",
+                        "required": [
+                            "title",
+                            "weight_g"
+                        ],
+                        "properties": {
+                            "title": {
+                                "type": "string",
+                                "description": "Food name",
+                                "example": "Каша 7 злаків Маtti"
+                            },
+                            "weight_g": {
+                                "type": "integer",
+                                "description": "Food weight in grams",
+                                "example": "70",
+                                "format": "int32"
+                            }
+                        }
+                    }
+                }
+            },
+            "DeleteProductRequest": {
+                "type": "object",
+                "description": "User's parameters object",
+                "required": [
+                    "diary_day"
+                ],
+                "properties": {
+                    "diary_day": {
+                        "type": "string",
+                        "description": "Diary day",
+                        "example": "01.10.2022"
+                    },
+                    "meal": {
+                        "type": "object",
+                        "description": "Meal",
+                        "required": [
+                            "_id"
+                        ],
+                        "properties": {
+                            "_id": {
+                                "type": "string",
+                                "description": "Backend-generated unique identifier"
                             }
                         }
                     }
