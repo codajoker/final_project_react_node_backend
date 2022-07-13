@@ -26,6 +26,7 @@ const {
 const {
   dayInfoController,
 } = require("../../controller/authControllers/dayInfoController");
+const { currentController } = require("../../controller/authControllers/currentController");
 
 route.post(
   "/register",
@@ -53,6 +54,13 @@ route.post(
   auth,
   // validationAuth(JoiSchemaDoodDiary),
   ctrlWrapper(dayInfoController)
+);
+
+route.get(
+  "/current",
+  auth,
+  // validationAuth(JoiSchemaDoodDiary),
+  ctrlWrapper(currentController)
 );
 
 module.exports = route;
