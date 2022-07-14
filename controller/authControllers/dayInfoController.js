@@ -17,7 +17,7 @@ const dayInfoController = async (req, res) => {
   });
 
   if (!findedListDay) {
-    throw Error("Daylist not found");
+    return res.status(404).json({ message: "Day not found", foodList: [] });
   }
 
   const foodList = findedListDay.meal;
