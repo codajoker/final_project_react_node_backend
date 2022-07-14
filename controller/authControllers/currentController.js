@@ -19,6 +19,7 @@ const currentController = async (req, res,) => {
       email: user.email,
       name: user.name,
       dailyCalories: user.dailyCalories,
+      notAllowedFood: user.notAllowedFood,
       }
       ,
   });
