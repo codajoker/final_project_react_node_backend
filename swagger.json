@@ -137,6 +137,38 @@
                 }
             }
         },
+        "/users/current": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get current user",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrentResponce"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "jwt expired"
+                    }
+                }
+            }
+        },
         "/users/dayinfo": {
             "post": {
                 "tags": [
@@ -732,6 +764,49 @@
                     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2Q1NjU2MzMyNWViYmRhZWY2NWU1ZiIsImlhdCI6MTY1NzYzNTAzMSwiZXhwIjoxNjU3NjM4NjMxfQ.8Y2K6jtuVUIeedsdJZXdpVxM2hsFK0N04C7iQvgcBrM",
                     "email": "ola@example.com",
                     "name": "Olala"
+                }
+            },
+            "CurrentResponce": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Success",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "200",
+                        "example": 200
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "token": {
+                                "type": "string",
+                                "description": "JWT token"
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "User's email",
+                                "format": "email"
+                            },
+                            "dailyCalories": {
+                                "type": "number",
+                                "description": "User's daily calories",
+                                "example": 2000
+                            },
+                            "notAllowedFood": {
+                                "type": "array",
+                                "description": "Not allowed food",
+                                "items": {
+                                    "type": "string",
+                                    "description": "Not allowed food",
+                                    "example": "Pizza"
+                                }
+                            }
+                        }
+                    }
                 }
             },
             "DayinfoResponse": {
