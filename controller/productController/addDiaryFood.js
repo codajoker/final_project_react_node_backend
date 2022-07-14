@@ -9,13 +9,15 @@ const addDiaryFood = async (req, res) => {
   const { diary_day, meal } = req.body;
   const { title, weight_g } = meal;
   const mealInDay = await Product.findOne({ "title.ua": title });
+
   if (mealInDay === null) {
     throw Error(`"There is no ${title} in the base"`);
   } else {
     const diaryDay = await FoodDiary.findOne({ diary_day, owner: _id });
+    const { calories, weight } = mealInDay;
+    const calories_kcal = caloriesMealCaluculator(weight_g, weight, calories);
+
     if (!diaryDay) {
-      const { calories, weight } = mealInDay;
-      const calories_kcal = caloriesMealCaluculator(weight_g, weight, calories);
       const foodData = await FoodDiary.create({
         diary_day,
         meal: [{ title, weight_g, calories_kcal }],
@@ -30,9 +32,39 @@ const addDiaryFood = async (req, res) => {
       });
     } else {
       const { meal, calories_in_day } = diaryDay;
-      const { calories, weight } = mealInDay;
-      const calories_kcal = caloriesMealCaluculator(weight_g, weight, calories);
       const caloriesResult = calories_in_day + calories_kcal;
+
+      const findedProductInDiaryDay = diaryDay.meal.find(
+        (item) => item.title === title
+      );
+      const index = diaryDay.meal.indexOf(findedProductInDiaryDay);
+
+      if (index !== -1) {
+        const updateMeal = {
+          title,
+          weight_g: findedProductInDiaryDay.weight_g + weight_g,
+          calories_kcal: findedProductInDiaryDay.calories_kcal + calories_kcal,
+          _id: findedProductInDiaryDay._id,
+        };
+        const newMealInday = diaryDay.meal;
+        newMealInday.splice(index, 1, updateMeal);
+
+        const foodData = await FoodDiary.findByIdAndUpdate(
+          diaryDay._id,
+          {
+            meal: newMealInday,
+            calories_in_day: caloriesResult,
+          },
+          { new: true }
+        );
+        return res.status(200).json({
+          data: {
+            message: "this product already exists, we have updated it",
+            foodData: foodData.meal[index],
+          },
+        });
+      }
+
       const newMealInday = [{ title, weight_g, calories_kcal }, ...meal];
       const foodData = await FoodDiary.findByIdAndUpdate(
         diaryDay._id,
