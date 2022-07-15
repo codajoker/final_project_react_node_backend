@@ -1,11 +1,10 @@
 const { User } = require("../../service/shemas/shema");
 
+const currentController = async (req, res) => {
+  const { token } = req.user;
 
-const currentController = async (req, res,) => {
-    const { token } = req.user; 
-   
-    const user = await User.findOne({ token });
-    
+  const user = await User.findOne({ token });
+
   res.status(200).json({
     status: "success",
 
@@ -15,8 +14,7 @@ const currentController = async (req, res,) => {
       name: user.name,
       dailyCalories: user.dailyCalories,
       notAllowedFood: user.notAllowedFood,
-      }
-      ,
+    },
   });
 };
-module.exports = { currentController };
+module.exports = currentController;

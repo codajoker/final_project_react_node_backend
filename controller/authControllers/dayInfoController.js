@@ -43,4 +43,4 @@ const dayInfoController = async (req, res) => {
   });
 };
 
-module.exports = { dayInfoController };
+module.exports = dayInfoController;
