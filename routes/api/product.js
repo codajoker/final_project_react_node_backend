@@ -13,9 +13,13 @@ const {
 const {
   delDiaryFood,
 } = require("../../controller/productController/delDiaryFood");
+const {
+  changeProduct,
+} = require("../../controller/productController/changeProduct");
 
 router.get("/:query", auth, ctrlWrapper(searchProductByQuery));
 router.post("/addDiaryFood", auth, ctrlWrapper(addDiaryFood));
 router.delete("/delDiaryfood", auth, ctrlWrapper(delDiaryFood));
+router.patch("/changeProduct", auth, ctrlWrapper(changeProduct));
 
 module.exports = router;
