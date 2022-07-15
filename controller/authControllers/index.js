@@ -3,6 +3,7 @@ const dayInfoController = require("./dayInfoController");
 const loginController = require("./loginController");
 const logOutController = require("./logoutController");
 const registerController = require("./registerController");
+const refreshTokenController = require("./refreshTokenController");
 
 module.exports = {
   currentController,
@@ -10,4 +11,5 @@ module.exports = {
   loginController,
   logOutController,
   registerController,
+  refreshTokenController,
 };

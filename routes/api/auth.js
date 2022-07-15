@@ -13,6 +13,7 @@ const {
   registerController,
   loginController,
   currentController,
+  refreshTokenController,
   logOutController,
   dayInfoController,
 } = require("../../controller/authControllers");
@@ -20,12 +21,6 @@ const {
 const {
   privateCaloriesController,
 } = require("../../controller/caloriesControllers/privateCaloriesController");
-const {
-  dayInfoController,
-} = require("../../controller/authControllers/dayInfoController");
-const { currentController } = require("../../controller/authControllers/currentController");
-const { tokenController } = require("../../controller/authControllers/tokenController");
-
 
 route.post(
   "/register",
@@ -56,12 +51,12 @@ route.get(
   // validationAuth(JoiSchemaDoodDiary),
   ctrlWrapper(currentController)
 );
+
 route.get(
-  "/token",
+  "/refresh-token",
   auth,
   // validationAuth(JoiSchemaDoodDiary),
-  ctrlWrapper(tokenController)
+  ctrlWrapper(refreshTokenController)
 );
-
 
 module.exports = route;
