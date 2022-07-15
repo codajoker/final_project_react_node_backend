@@ -4,6 +4,7 @@ const { User } = require("../../service/shemas/shema");
 const tokenController = async (req, res,) => {
     const { token } = req.user; 
    
+  console.log(token);
     const user = await User.findOne({ token });
     if (!user) {
       res.status(404).json({ message: "User not found" });
