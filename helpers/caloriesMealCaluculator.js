@@ -3,4 +3,4 @@ const caloriesMealCaluculator = (weight_g, weight, calories) => {
   return Math.round(result);
 };
 
-module.exports = { caloriesMealCaluculator };
+module.exports = caloriesMealCaluculator;

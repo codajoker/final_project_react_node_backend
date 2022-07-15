@@ -6,11 +6,7 @@ const { auth } = require("../../middleware/auth");
 
 const {
   searchProductByQuery,
-} = require("../../controller/productController/searchProductByQuery");
-const {
   addDiaryFood,
-} = require("../../controller/productController/addDiaryFood");
-const {
   delDiaryFood,
 } = require("../../controller/productController/delDiaryFood");
 const {
