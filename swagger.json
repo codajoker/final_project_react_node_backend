@@ -168,6 +168,45 @@
                     }
                 }
             }
+        }, "/users/token": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Validation token",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "token valid",
+                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "number",
+                                            "description": "Status",
+                                            "example": 200
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "jwt expired"
+                    }
+                }
+            }
         },
         "/users/dayinfo": {
             "post": {
