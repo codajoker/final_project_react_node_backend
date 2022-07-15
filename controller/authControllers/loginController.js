@@ -1,7 +1,7 @@
 const { User } = require("../../service/shemas/shema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { getTokenExpiration } = require("../../helpers/getTokenExpiration");
+const getTokenExpiration = require("../../helpers/getTokenExpiration");
 require("dotenv").config();
 const { SECRET_KEY } = process.env;
 const loginController = async (req, res) => {
