@@ -1,15 +1,13 @@
 const { User } = require("../../service/shemas/shema");
 
 const currentController = async (req, res) => {
-  const { token } = req.user;
+  const { _id } = req.user;
 
-  const user = await User.findOne({ token });
+  const user = await User.findOne({ _id });
 
   res.status(200).json({
     status: "success",
-
     data: {
-      token: user.token,
       email: user.email,
       name: user.name,
       dailyCalories: user.dailyCalories,
