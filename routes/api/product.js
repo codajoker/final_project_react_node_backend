@@ -6,13 +6,9 @@ const { auth } = require("../../middleware/auth");
 
 const {
   searchProductByQuery,
-} = require("../../controller/productController/searchProductByQuery");
-const {
   addDiaryFood,
-} = require("../../controller/productController/addDiaryFood");
-const {
   delDiaryFood,
-} = require("../../controller/productController/delDiaryFood");
+} = require("../../controller/productController");
 
 router.get("/:query", auth, ctrlWrapper(searchProductByQuery));
 router.post("/addDiaryFood", auth, ctrlWrapper(addDiaryFood));

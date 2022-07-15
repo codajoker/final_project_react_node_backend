@@ -31,4 +31,4 @@ const delDiaryFood = async (req, res) => {
   throw Error(`"This product is not in the database"`);
 };
 
-module.exports = { delDiaryFood };
+module.exports = delDiaryFood;
