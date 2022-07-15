@@ -8,6 +8,9 @@ const refreshTokenController = async (req, res) => {
   const { _id } = req.user;
 
   const { tokenExpires, expirationSeconds } = getTokenExpiration();
+    const payload = {
+    id: _id,
+  };
   const token = jwt.sign(payload, SECRET_KEY, {
     expiresIn: expirationSeconds,
   });

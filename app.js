@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/users", authRouter);
 app.use("/calories", caloriesRouter);
-app.use("/product", productRouter); //
+app.use("/product", productRouter); 
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

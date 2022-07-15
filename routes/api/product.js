@@ -1,14 +1,14 @@
 // create public endpoin for calories and products
 const router = require("express").Router();
 
-const { ctrlWrapper } = require("../../middleware/ctrlWrapper");
+const  {ctrlWrapper}  = require("../../middleware/ctrlWrapper");
 const { auth } = require("../../middleware/auth");
 
 const {
   searchProductByQuery,
   addDiaryFood,
   delDiaryFood,
-} = require("../../controller/productController/delDiaryFood");
+} = require("../../controller/productController");
 const {
   changeProduct,
 } = require("../../controller/productController/changeProduct");
