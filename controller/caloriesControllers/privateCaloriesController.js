@@ -59,4 +59,4 @@ const privateCaloriesController = async (req, res) => {
   });
 };
 
-module.exports = { privateCaloriesController };
+module.exports = privateCaloriesController;

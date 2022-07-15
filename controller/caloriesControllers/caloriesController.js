@@ -37,4 +37,4 @@ const caloriesController = async (req, res) => {
   });
 };
 
-module.exports = { caloriesController };
+module.exports = caloriesController;
