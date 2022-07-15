@@ -13,7 +13,7 @@ const caloriesController = async (req, res) => {
 
   const result = await Product.find(
     {
-      [`groupBloodNotAllowed.${bloodType}`]: false,
+      [`groupBloodNotAllowed.${bloodType}`]: true,
     },
     { categories: 1 }
   );
@@ -30,11 +30,11 @@ const caloriesController = async (req, res) => {
     status: "success",
     code: 200,
     data: {
-      dailyCalories,
+      dailyCalories: dailyCalories.toFixed(),
       uniqCategories,
       message: "Calories counted successfully",
     },
   });
 };
 
-module.exports = { caloriesController };
+module.exports = caloriesController;

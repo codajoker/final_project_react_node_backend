@@ -7,24 +7,24 @@ const registerController = async (req, res) => {
   const { name, email, password } = req.body;
   const user = await User.find({ email });
   if (user.length > 0) {
-    throw Error( "User already exists.");
+    throw Error("User already exists.");
   }
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
   const verificationToken = uuid.v4();
- 
-     await User.create({
-      name,
+
+  await User.create({
+    name,
     email,
     password: hashPassword,
-    verificationToken
-    });
+    verificationToken,
+  });
   return res.status(200).json({
-      status: "success",
-      code: 200,
+    status: "success",
+    code: 200,
     data: {
       message: "User created successfully",
-      },
-  })
-}
+    },
+  });
+};
 
-module.exports = {registerController};
+module.exports = registerController;

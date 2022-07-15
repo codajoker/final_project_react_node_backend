@@ -82,11 +82,11 @@ const joiSchemaLogin = Joi.object({
 });
 
 const JoiSchemaCalories = Joi.object({
-  height: Joi.number().min(1),
-  age: Joi.number(),
-  currentWeight: Joi.number(),
-  goalWeight: Joi.number(),
-  bloodType: Joi.number(),
+  height: Joi.number().min(1).required(),
+  age: Joi.number().required(),
+  currentWeight: Joi.number().required(),
+  goalWeight: Joi.number().required(),
+  bloodType: Joi.number().required(),
   notAllowedFood: Joi.array(),
   dailyCalories: Joi.number(),
 });
