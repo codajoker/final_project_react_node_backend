@@ -1,8 +1,6 @@
 const { FoodDiary } = require("../../service/shemas/foodDiary");
 const { Product } = require("../../service/shemas/productSchema");
-const {
-  caloriesMealCaluculator,
-} = require("../../helpers/caloriesMealCaluculator");
+const { caloriesMealCaluculator } = require("../../helpers");
 
 const changeProduct = async (req, res) => {
   const { _id } = req.user;
