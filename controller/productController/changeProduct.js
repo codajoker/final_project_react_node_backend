@@ -14,41 +14,43 @@ const changeProduct = async (req, res) => {
     productInBase.calories
   );
   const diaryDay = await FoodDiary.findOne({
-    day,
+    diary_day: day,
     owner: _id,
   });
-  const findProduct = diaryDay.meal.find(
-    (item) => item.id.toString() === meal_id
-  );
 
-  if (findProduct) {
-    const newCalories =
-      diaryDay.calories_in_day - findProduct.calories_kcal + newCaloris;
-    const changedProduct = {
-      title,
-      weight_g,
-      meal_id,
-      calories_kcal: newCaloris,
-    };
-    const index = diaryDay.meal.indexOf(findProduct);
-    const newMealInday = diaryDay.meal;
-    newMealInday.splice(index, 1, changedProduct);
-    const foodData = await FoodDiary.findByIdAndUpdate(
-      diaryDay._id,
-      {
-        meal: newMealInday,
-        calories_in_day: newCalories,
-      },
-      { new: true }
+  if (diaryDay) {
+    const findProduct = diaryDay.meal.find(
+      (item) => item.id.toString() === meal_id
     );
-    return res.status(200).json({
-      data: {
-        message: "this product updated ",
-        foodData: foodData.meal[index],
-      },
-    });
+
+    if (findProduct) {
+      const newCalories =
+        diaryDay.calories_in_day - findProduct.calories_kcal + newCaloris;
+
+      const index = diaryDay.meal.indexOf(findProduct);
+
+      const foodData = await FoodDiary.findOneAndUpdate(
+        { _id: diaryDay._id, "meal._id": meal_id },
+        {
+          $set: {
+            "meal.$.weight_g": weight_g,
+            "meal.$.calories_kcal": newCaloris,
+          },
+          calories_in_day: newCalories,
+        },
+        { new: true }
+      );
+
+      return res.status(200).json({
+        data: {
+          message: "this product updated ",
+          foodData: foodData.meal[index],
+        },
+      });
+    }
+    throw Error("Product not found in diary");
   }
-  throw Error("Product not found in diary");
+  throw Error("Day not found in diary");
 };
 
 module.exports = {
