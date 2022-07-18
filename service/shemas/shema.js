@@ -72,7 +72,7 @@ const joiSchemaRegistration = Joi.object({
   name: Joi.string().required(),
 });
 const joiSchemaLogin = Joi.object({
-  password: Joi.string().min(6).required(),
+  password: Joi.string().min(8).required(),
   email: Joi.string()
     .email({
       minDomainSegments: 2,
