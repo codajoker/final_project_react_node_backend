@@ -1,6 +1,7 @@
 const Joi = require("joi");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const { v4 } = require("uuid");
 
 const users = new Schema(
   {
@@ -25,7 +26,7 @@ const users = new Schema(
     },
     verificationToken: {
       type: String,
-      default: null,
+      default: v4(),
     },
     name: {
       type: String,

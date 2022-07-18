@@ -16,6 +16,8 @@ const {
   refreshTokenController,
   logOutController,
   dayInfoController,
+  verifyEmailController,
+  resendEmailController,
 } = require("../../controller/authControllers");
 
 const {
@@ -58,5 +60,8 @@ route.get(
   // validationAuth(JoiSchemaDoodDiary),
   ctrlWrapper(refreshTokenController)
 );
+
+route.get("/verify/:verificationToken", ctrlWrapper(verifyEmailController));
+route.post("/verify", ctrlWrapper(resendEmailController));
 
 module.exports = route;
