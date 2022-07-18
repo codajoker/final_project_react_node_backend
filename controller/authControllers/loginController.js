@@ -8,7 +8,7 @@ const loginController = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   const hashPassword = bcrypt.compareSync(password, user.password);
-  if (!user || !hashPassword) {
+  if (!user || !user.verify || !hashPassword) {
     return res.status(401).json({
       status: "Error",
 

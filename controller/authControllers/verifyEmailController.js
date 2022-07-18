@@ -5,24 +5,19 @@ const verifyEmailController = async (req, res) => {
   const user = await User.findOne({ verificationToken });
 
   if (!user) {
-    throw Error("User not found");
+    return res.status(401).json({
+      message: "Verification has already been passed",
+    });
   }
-
-  user.isVerified = true;
-  user.verificationToken = null;
 
   await User.findByIdAndUpdate(user._id, {
     verify: true,
     verificationToken: null,
   });
 
-  res
-    .json({
-      message: "Verification successful",
-    })
-    .redirect(
-      "https://codajoker.github.io/final_project_react_node_frontend/signin"
-    );
+  res.json({
+    message: "Verification successful",
+  });
 };
 
 module.exports = verifyEmailController;
