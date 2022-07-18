@@ -24,7 +24,7 @@ const registerController = async (req, res) => {
   const mail = {
     to: email,
     subject: "Подверждение email",
-    html: `<p>Follow the link to confirm your email - codajoker.github.io/final_project_react_node_frontend/verify</p>`,
+    html: `<p>Follow the link to confirm your email - codajoker.github.io/final_project_react_node_frontend/verify/${verificationToken}</p>`,
   };
 
   await sendEmail(mail);

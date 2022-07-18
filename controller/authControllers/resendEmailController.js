@@ -8,6 +8,7 @@ const resendEmailController = async (req, res) => {
 
   const user = await User.findOne({ email });
   const verificationToken = user.verificationToken;
+  console.log(verificationToken);
 
   if (user.verify) {
     throw createError(400, "Verification has already been passed");
@@ -16,7 +17,7 @@ const resendEmailController = async (req, res) => {
   const confirmEmail = {
     to: email,
     subject: "Confirm email again",
-    html: `<p>Follow the link to confirm your email again - codajoker.github.io/final_project_react_node_frontend/verify</p>`,
+    html: `<p>Follow the link to confirm your email again - codajoker.github.io/final_project_react_node_frontend/verify/${verificationToken}</p>`,
   };
 
   await sendEmail(confirmEmail);
