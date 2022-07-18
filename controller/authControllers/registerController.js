@@ -2,10 +2,12 @@ const createHttpError = require("http-errors");
 const { User } = require("../../service/shemas/shema");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
+const { sendEmail } = require("../../helpers");
 
 const registerController = async (req, res) => {
   const { name, email, password } = req.body;
   const user = await User.find({ email });
+
   if (user.length > 0) {
     throw Error("User already exists.");
   }
@@ -18,10 +20,20 @@ const registerController = async (req, res) => {
     password: hashPassword,
     verificationToken,
   });
+
+  const mail = {
+    to: email,
+    subject: "Подверждение email",
+    html: `<p>Follow the link to confirm your email - codajoker.github.io/final_project_react_node_frontend/verify</p>`,
+  };
+
+  await sendEmail(mail);
+
   return res.status(200).json({
     status: "success",
     code: 200,
     data: {
+      verificationToken,
       message: "User created successfully",
     },
   });
