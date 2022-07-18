@@ -16,9 +16,13 @@ const verifyEmailController = async (req, res) => {
     verificationToken: null,
   });
 
-  res.json({
-    message: "Verification successful",
-  });
+  res
+    .json({
+      message: "Verification successful",
+    })
+    .redirect(
+      "https://codajoker.github.io/final_project_react_node_frontend/signin"
+    );
 };
 
 module.exports = verifyEmailController;

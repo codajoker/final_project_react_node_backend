@@ -8,7 +8,7 @@ const users = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: 6,
+      minlength: 8,
     },
     email: {
       type: String,
@@ -62,7 +62,7 @@ const users = new Schema(
   }
 );
 const joiSchemaRegistration = Joi.object({
-  password: Joi.string().min(6).max(30).required(),
+  password: Joi.string().min(8).max(30).required(),
   email: Joi.string()
     .email({
       minDomainSegments: 2,
