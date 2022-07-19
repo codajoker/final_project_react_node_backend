@@ -54,9 +54,9 @@ const privateCaloriesController = async (req, res) => {
       goalWeight,
       bloodType,
       uniqCategories,
-      message: "User updated successfully",
+      message: "User's daily norm calories counted successfully",
     },
   });
 };
 
-module.exports = {privateCaloriesController};
+module.exports = { privateCaloriesController };
