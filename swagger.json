@@ -881,6 +881,106 @@
                     }
                 }
             }
+        },
+        "/users/verify/{verificationToken}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Verify user",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "verificationToken",
+                        "description": "Token to verify user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "5d51694802b2373622ff556b"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User verified successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Verification successful",
+                                            "example": "Verification successful"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Verification has already been passed"
+                    },
+                    "500": {
+                        "description": "invalid token or jwt expired"
+                    }
+                }
+            }
+        },
+        "/users/verify": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Resending email for verification",
+                "parameters": [],
+                "requestBody": {
+                    "description": "User's email",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "description": "User's email",
+                                        "example": "ola@example.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User verified successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Resend email for verification",
+                                            "example": "Verification email sent again"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Verification has already been passed"
+                    },
+                    "500": {
+                        "description": "invalid token or jwt expired"
+                    }
+                }
+            }
         }
     },
     "components": {
