@@ -16,7 +16,7 @@ const resendEmailController = async (req, res) => {
   const confirmEmail = {
     to: email,
     subject: "Confirm email again",
-    html: `<p>Підвердіть знову свою пошту перейшовши за посиланням - codajoker.github.io/final_project_react_node_frontend/verify/${verificationToken}</p>`,
+    html: `<p>Для повторного підтвердження електронної адреси перейдіть за посиланням - codajoker.github.io/final_project_react_node_frontend/verify/${verificationToken}</p>`,
   };
 
   await sendEmail(confirmEmail);
