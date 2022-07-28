@@ -6,6 +6,8 @@ const registerController = require("./registerController");
 const refreshTokenController = require("./refreshTokenController");
 const verifyEmailController = require("./verifyEmailController");
 const resendEmailController = require("./resendEmailController");
+const sandRefreshPaswordEmail = require("./sandRefreshPaswordEmail");
+const refreshPasword = require("./refreshPasword");
 
 module.exports = {
   currentController,
@@ -16,4 +18,6 @@ module.exports = {
   refreshTokenController,
   verifyEmailController,
   resendEmailController,
+  sandRefreshPaswordEmail,
+  refreshPasword,
 };
