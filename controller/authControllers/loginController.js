@@ -14,6 +14,7 @@ const loginController = async (req, res) => {
       status: "Error",
 
       message: "Email or password is wrong or not verifyed",
+      verify: user.verify,
     });
   }
   const payload = {
@@ -31,6 +32,7 @@ const loginController = async (req, res) => {
       email: email,
       name: user.name,
       dailyCalories: user.dailyCalories,
+      verify: user.verify,
     },
   });
 };
