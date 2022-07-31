@@ -10,7 +10,7 @@ const sandRefreshPaswordEmail = async (req, res) => {
     const refreshPasswordEmail = {
       to: email,
       subject: "Refresh Password",
-      html: `<p>Для скидання паролю перейдіть зап посиланням - slimmom-webhive.netlify.app/refreshPasword/${userId}</p>`,
+      html: `<p>Для скидання паролю перейдіть за посиланням - slimmom-webhive.netlify.app/refreshPasword/${userId}</p>`,
     };
     await sendEmail(refreshPasswordEmail);
     res.status(200).json({ massage: "Password reset email has been sent" });
