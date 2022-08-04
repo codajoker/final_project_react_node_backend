@@ -14,7 +14,8 @@ const sandRefreshPasswordEmail = async (req, res) => {
     };
     await sendEmail(refreshPasswordEmail);
     res.status(200).json({ message: "Password reset email has been sent" });
-  }
+  } else {
   throw Error("User not found");
+  }
 };
 module.exports = sandRefreshPasswordEmail;
