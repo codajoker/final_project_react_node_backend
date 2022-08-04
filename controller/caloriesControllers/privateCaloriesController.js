@@ -1,18 +1,28 @@
 const { Product } = require("../../service/shemas/productSchema");
 const { User } = require("../../service/shemas/shema");
-const { countlDailyCalories } = require("../../helpers");
+const { countDailyCaloriesMan,countDailyCaloriesWomen } = require("../../helpers");
 
 const privateCaloriesController = async (req, res) => {
   const { _id } = req.user;
 
   const { age, height, currentWeight, goalWeight, bloodType } = req.body;
 
-  const dailyCalories = countlDailyCalories(
+ let dailyCalories = null;
+
+if (sex.toLowerCase() ==="male") {
+     dailyCalories = countDailyCaloriesMan(
     currentWeight,
     height,
     age,
     goalWeight
   );
+  }
+else {
+  dailyCalories = countDailyCaloriesWomen(currentWeight,
+    height,
+    age,
+    goalWeight)
+  }
 
   const productList = await Product.find(
     {
@@ -52,6 +62,7 @@ const privateCaloriesController = async (req, res) => {
       height,
       currentWeight,
       goalWeight,
+      sex,
       bloodType,
       uniqCategories,
       message: "User's daily norm calories counted successfully",
