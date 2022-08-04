@@ -9,7 +9,7 @@ const refreshPasword = async (req, res) => {
     const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
     await User.findByIdAndUpdate(id, { password: hashPassword });
 
-    res.status(200).json({ massage: "The password has been changed" });
+    res.status(200).json({ message: "The password has been changed" });
   }
   throw Error("User not found");
 };

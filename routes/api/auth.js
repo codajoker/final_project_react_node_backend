@@ -18,7 +18,7 @@ const {
   dayInfoController,
   verifyEmailController,
   resendEmailController,
-  sandRefreshPaswordEmail,
+  sandRefreshPasswordEmail,
   refreshPasword,
 } = require("../../controller/authControllers");
 
@@ -66,7 +66,7 @@ route.get(
 route.get("/verify/:verificationToken", ctrlWrapper(verifyEmailController));
 route.post("/verify", ctrlWrapper(resendEmailController));
 
-route.get("/refreshPassword", ctrlWrapper(sandRefreshPaswordEmail));
-route.post("/refreshPassword/:id", ctrlWrapper(refreshPasword));
+route.post("/refreshPassword", ctrlWrapper(sandRefreshPasswordEmail));
+route.putch("/refreshPassword/:id", ctrlWrapper(refreshPasword));
 
 module.exports = route;
