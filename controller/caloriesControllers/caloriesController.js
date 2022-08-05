@@ -1,10 +1,9 @@
 const { Product } = require("../../service/shemas/productSchema");
-const { countDailyCaloriesMan,countDailyCaloriesWomen } = require("../../helpers");
+const { countDailyCaloriesMan,countDailyCaloriesWomen } = require("../../helpers/countlDailyCalories");
 
 const caloriesController = async (req, res) => {
   const { age, height, currentWeight, goalWeight, bloodType,sex } = req.body;
   let dailyCalories = null;
-
 if (sex.toLowerCase() ==="male") {
      dailyCalories = countDailyCaloriesMan(
     currentWeight,
