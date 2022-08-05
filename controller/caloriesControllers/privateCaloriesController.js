@@ -5,7 +5,7 @@ const { countDailyCaloriesMan,countDailyCaloriesWomen } = require("../../helpers
 const privateCaloriesController = async (req, res) => {
   const { _id } = req.user;
 
-  const { age, height, currentWeight, goalWeight, bloodType } = req.body;
+  const { age, height, currentWeight, goalWeight, bloodType,sex } = req.body;
 
  let dailyCalories = null;
 
