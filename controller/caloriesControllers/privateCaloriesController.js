@@ -1,6 +1,6 @@
 const { Product } = require("../../service/shemas/productSchema");
 const { User } = require("../../service/shemas/shema");
-const { countDailyCaloriesMan,countDailyCaloriesWomen } = require("../../helpers");
+const { countDailyCaloriesMan,countDailyCaloriesWomen } = require("../../helpers/countlDailyCalories");
 
 const privateCaloriesController = async (req, res) => {
   const { _id } = req.user;
