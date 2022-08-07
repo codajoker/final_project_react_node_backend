@@ -20,6 +20,18 @@ const productSchema = Schema(
         type: String,
         required: [true, "Title is required"],
       },
+      en: {
+        type: String,
+        required: [true, "Title is required"],
+      },
+      pl: {
+        type: String,
+        required: [true, "Title is required"],
+      },
+      dl: {
+        type: String,
+        required: [true, "Title is required"],
+      },
     },
     calories: {
       type: Number,
@@ -44,6 +56,9 @@ const joiSchemaProduct = Joi.object({
   title: Joi.object({
     ru: Joi.string().required(),
     ua: Joi.string().required(),
+    pl: Joi.string().required(),
+    en: Joi.string().required(),
+    dl: Joi.string().required(),
   }).required(),
   calories: Joi.number().required(),
   groupBloodNotAllowed: Joi.array().items(Joi.boolean()).required(),
