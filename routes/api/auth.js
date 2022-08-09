@@ -67,6 +67,6 @@ route.get("/verify/:verificationToken", ctrlWrapper(verifyEmailController));
 route.post("/verify", ctrlWrapper(resendEmailController));
 
 route.post("/refreshPassword", ctrlWrapper(sandRefreshPasswordEmail));
-route.putch("/refreshPassword/:id", ctrlWrapper(refreshPasword));
+route.patch("/refreshPassword/:id", ctrlWrapper(refreshPasword));
 
 module.exports = route;
