@@ -19,7 +19,7 @@ const caloriesController = async (req, res) => {
   );
 
   const uniqCategories = [
-    ...new Set(result.map((item) => item.categories.toString())),
+    ...new Set(result.map((item) => item.categories[0].toString())),
   ];
 
   if (!result) {

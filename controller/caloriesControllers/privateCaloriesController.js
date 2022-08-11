@@ -26,7 +26,7 @@ const privateCaloriesController = async (req, res) => {
   }
 
   const uniqCategories = [
-    ...new Set(productList.map((item) => item.categories.toString())),
+    ...new Set(productList.map((item) => item.categories[0].toString())),
   ];
 
   const user = await User.findByIdAndUpdate(
