@@ -1,24 +1,27 @@
 const { Product } = require("../../service/shemas/productSchema");
-const { countDailyCaloriesMan,countDailyCaloriesWomen } = require("../../helpers/countlDailyCalories");
+const {
+  countDailyCaloriesMan,
+  countDailyCaloriesWomen,
+} = require("../../helpers/countlDailyCalories");
 
 const caloriesController = async (req, res) => {
-  const { age, height, currentWeight, goalWeight, bloodType,sex } = req.body;
+  const { age, height, currentWeight, goalWeight, bloodType, sex } = req.body;
   let dailyCalories = null;
-if (sex.toLowerCase() ==="male") {
-     dailyCalories = countDailyCaloriesMan(
-    currentWeight,
-    height,
-    age,
-    goalWeight
-  );
+  if (sex.toLowerCase() === "male") {
+    dailyCalories = countDailyCaloriesMan(
+      currentWeight,
+      height,
+      age,
+      goalWeight
+    );
+  } else {
+    dailyCalories = countDailyCaloriesWomen(
+      currentWeight,
+      height,
+      age,
+      goalWeight
+    );
   }
-else {
-  dailyCalories = countDailyCaloriesWomen(currentWeight,
-    height,
-    age,
-    goalWeight)
-  }
- 
 
   const result = await Product.find(
     {
@@ -28,7 +31,7 @@ else {
   );
 
   const uniqCategories = [
-    ...new Set(result.map((item) => item.categories.toString())),
+    ...new Set(result.map((item) => item.categories[0].toString())),
   ];
 
   if (!result) {
@@ -46,4 +49,4 @@ else {
   });
 };
 
-module.exports = {caloriesController};
+module.exports = { caloriesController };
