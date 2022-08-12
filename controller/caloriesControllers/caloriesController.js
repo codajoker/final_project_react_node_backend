@@ -1,25 +1,37 @@
 const { Product } = require("../../service/shemas/productSchema");
-const { countlDailyCalories } = require("../../helpers");
+const {
+  countDailyCaloriesMan,
+  countDailyCaloriesWomen,
+} = require("../../helpers/countlDailyCalories");
 
 const caloriesController = async (req, res) => {
-  const { age, height, currentWeight, goalWeight, bloodType } = req.body;
-
-  const dailyCalories = countlDailyCalories(
-    currentWeight,
-    height,
-    age,
-    goalWeight
-  );
+  const { age, height, currentWeight, goalWeight, bloodType, sex } = req.body;
+  let dailyCalories = null;
+  if (sex.toLowerCase() === "male") {
+    dailyCalories = countDailyCaloriesMan(
+      currentWeight,
+      height,
+      age,
+      goalWeight
+    );
+  } else {
+    dailyCalories = countDailyCaloriesWomen(
+      currentWeight,
+      height,
+      age,
+      goalWeight
+    );
+  }
 
   const result = await Product.find(
     {
-      [`groupBloodNotAllowed.${bloodType}`]: false,
+      [`groupBloodNotAllowed.${bloodType}`]: true,
     },
     { categories: 1 }
   );
 
   const uniqCategories = [
-    ...new Set(result.map((item) => item.categories.toString())),
+    ...new Set(result.map((item) => item.categories[0].toString())),
   ];
 
   if (!result) {
@@ -30,7 +42,7 @@ const caloriesController = async (req, res) => {
     status: "success",
     code: 200,
     data: {
-      dailyCalories,
+      dailyCalories: dailyCalories.toFixed(),
       uniqCategories,
       message: "Calories counted successfully",
     },

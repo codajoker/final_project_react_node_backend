@@ -1,0 +1,46 @@
+const { FoodDiary } = require("../../service/shemas/foodDiary");
+const { User } = require("../../service/shemas/shema");
+
+const dayInfoController = async (req, res) => {
+  const { day } = req.body;
+  const { _id } = req.user;
+
+  const user = await User.findById(_id);
+
+  if (!user) {
+    throw Error("User not found");
+  }
+
+  const findedListDay = await FoodDiary.findOne({
+    owner: _id,
+    diary_day: day,
+  });
+
+  if (!findedListDay) {
+    return res.status(404).json({ message: "Day not found", foodList: [] });
+  }
+
+  const foodList = findedListDay.meal;
+  const totalDayCalories = foodList.reduce(
+    (acc, item) => acc + item.calories_kcal,
+    0
+  );
+
+  return res.status(200).json({
+    status: "success",
+    code: 200,
+    data: {
+      dailyNormCalories: user.dailyCalories,
+      totalDayCalories,
+      difference: user.dailyCalories - totalDayCalories,
+      percent_of_normal: (
+        (totalDayCalories / user.dailyCalories) *
+        100
+      ).toFixed(),
+      foodList,
+      message: "Diary day info",
+    },
+  });
+};
+
+module.exports = dayInfoController;

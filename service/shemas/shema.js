@@ -1,13 +1,14 @@
 const Joi = require("joi");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const { v4 } = require("uuid");
 
 const users = new Schema(
   {
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: 6,
+      minlength: 8,
     },
     email: {
       type: String,
@@ -25,7 +26,7 @@ const users = new Schema(
     },
     verificationToken: {
       type: String,
-      default: null,
+      default: v4(),
     },
     name: {
       type: String,
@@ -55,13 +56,17 @@ const users = new Schema(
       type: Number,
       default: null,
     },
+    sex: {
+      type: String,
+      default:null
+    }
   },
   {
     versionKey: false,
   }
 );
 const joiSchemaRegistration = Joi.object({
-  password: Joi.string().min(6).max(30).required(),
+  password: Joi.string().min(8).max(30).required(),
   email: Joi.string()
     .email({
       minDomainSegments: 2,
@@ -71,7 +76,7 @@ const joiSchemaRegistration = Joi.object({
   name: Joi.string().required(),
 });
 const joiSchemaLogin = Joi.object({
-  password: Joi.string().min(6).required(),
+  password: Joi.string().min(8).required(),
   email: Joi.string()
     .email({
       minDomainSegments: 2,
@@ -82,13 +87,14 @@ const joiSchemaLogin = Joi.object({
 });
 
 const JoiSchemaCalories = Joi.object({
-  height: Joi.number().min(1),
-  age: Joi.number(),
-  currentWeight: Joi.number(),
-  goalWeight: Joi.number(),
-  bloodType: Joi.number(),
+  height: Joi.number().min(1).required(),
+  age: Joi.number().required(),
+  currentWeight: Joi.number().required(),
+  goalWeight: Joi.number().required(),
+  bloodType: Joi.number().required(),
   notAllowedFood: Joi.array(),
   dailyCalories: Joi.number(),
+  sex: Joi.string().required(),
 });
 
 const User = mongoose.model("user", users);

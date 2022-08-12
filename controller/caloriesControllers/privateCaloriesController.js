@@ -1,22 +1,36 @@
 const { Product } = require("../../service/shemas/productSchema");
 const { User } = require("../../service/shemas/shema");
-const { countlDailyCalories } = require("../../helpers");
+const {
+  countDailyCaloriesMan,
+  countDailyCaloriesWomen,
+} = require("../../helpers/countlDailyCalories");
 
 const privateCaloriesController = async (req, res) => {
   const { _id } = req.user;
 
-  const { age, height, currentWeight, goalWeight, bloodType } = req.body;
+  const { age, height, currentWeight, goalWeight, bloodType, sex } = req.body;
 
-  const dailyCalories = countlDailyCalories(
-    currentWeight,
-    height,
-    age,
-    goalWeight
-  );
+  let dailyCalories = null;
+
+  if (sex.toLowerCase() === "male") {
+    dailyCalories = countDailyCaloriesMan(
+      currentWeight,
+      height,
+      age,
+      goalWeight
+    );
+  } else {
+    dailyCalories = countDailyCaloriesWomen(
+      currentWeight,
+      height,
+      age,
+      goalWeight
+    );
+  }
 
   const productList = await Product.find(
     {
-      [`groupBloodNotAllowed.${bloodType}`]: false,
+      [`groupBloodNotAllowed.${bloodType}`]: true,
     },
     { categories: 1 }
   );
@@ -26,14 +40,14 @@ const privateCaloriesController = async (req, res) => {
   }
 
   const uniqCategories = [
-    ...new Set(productList.map((item) => item.categories.toString())),
+    ...new Set(productList.map((item) => item.categories[0].toString())),
   ];
 
   const user = await User.findByIdAndUpdate(
     _id,
     {
       notAllowedFood: uniqCategories,
-      dailyCalories: dailyCalories,
+      dailyCalories: dailyCalories.toFixed(),
       age,
       height,
       currentWeight,
@@ -47,14 +61,15 @@ const privateCaloriesController = async (req, res) => {
     status: "success",
     code: 200,
     data: {
-      dailyCalories,
+      dailyCalories: dailyCalories.toFixed(),
       age,
       height,
       currentWeight,
       goalWeight,
+      sex,
       bloodType,
       uniqCategories,
-      message: "User updated successfully",
+      message: "User's daily norm calories counted successfully",
     },
   });
 };

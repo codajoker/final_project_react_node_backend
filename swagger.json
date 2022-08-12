@@ -1,0 +1,1323 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0.1",
+        "title": "Connections API",
+        "contact": {
+            "name": "SlimMom",
+            "url": "https://codajoker.github.io/final_project_react_node_frontend/"
+        }
+    },
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "servers": [
+        {
+            "url": "https://sheltered-fjord-67703.herokuapp.com",
+            "description": "Herokuapp server"
+        }
+    ],
+    "tags": [
+        {
+            "name": "User",
+            "description": "Users endpoints"
+        },
+        {
+            "name": "Calories",
+            "description": "Calories endpoints"
+        },
+        {
+            "name": "Product",
+            "description": "Products endpoints"
+        }
+    ],
+    "paths": {
+        "/users/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register new user",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Registration's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegistrationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegistrationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "User already exists"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Login user",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Login's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logined successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Email or password is wrong or not verifyed"
+                    },
+                    "500": {
+                        "description": "Cannot read properties of null (reading 'password')"
+                    }
+                }
+            }
+        },
+        "/users/logout": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Logout user",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User logout successfully",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "jwt expired"
+                    }
+                }
+            }
+        },
+        "/users/current": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get current user",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrentResponce"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "jwt expired"
+                    }
+                }
+            }
+        },
+        "/users/refresh-token": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Validation token",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "token valid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "description": "token",
+                                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2Q1NjU2MzMyNWViYmRhZWY2NWU1ZiIsImlhdCI6MTY1NzYzNTAzMSwiZXhwIjoxNjU3NjM4NjMxfQ.8Y2K6jtuVUIeedsdJZXdpVxM2hsFK0N04C7iQvgcBrM"
+                                                },
+                                                "tokenExpires": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "Token expiration date",
+                                                    "example": "2020-01-01T00:00:00.000Z"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "jwt expired"
+                    }
+                }
+            }
+        },
+        "/users/dayinfo": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User day information",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Day",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "string",
+                                "description": "Day",
+                                "example": "01.07.2022",
+                                "format": "date"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Information received successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DayinfoResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "404": {
+                        "description": "Day not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Message",
+                                            "example": "Day not found"
+                                        },
+                                        "foodList": {
+                                            "type": "array",
+                                            "description": "Food list",
+                                            "example": []
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/calories": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User daily norm calories",
+                "parameters": [],
+                "requestBody": {
+                    "description": "User's parameters object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CaloriesRequest"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User's daily norm calories + user's parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "User's daily norm calories + user's parameters",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Success",
+                                            "example": "success"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "description": "200",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "description": "User's daily norm calories + user's parameters",
+                                            "properties": {
+                                                "dailyCalories": {
+                                                    "type": "integer",
+                                                    "description": "User's daily norm calories",
+                                                    "example": "2000",
+                                                    "format": "int32"
+                                                },
+                                                "age": {
+                                                    "type": "integer",
+                                                    "description": "User's age",
+                                                    "example": "20",
+                                                    "format": "int32"
+                                                },
+                                                "height": {
+                                                    "type": "integer",
+                                                    "description": "User's height",
+                                                    "example": "175",
+                                                    "format": "int32"
+                                                },
+                                                "currentWeight": {
+                                                    "type": "integer",
+                                                    "description": "Current weight",
+                                                    "example": "75",
+                                                    "format": "int32"
+                                                },
+                                                "goalWeight": {
+                                                    "type": "integer",
+                                                    "description": "User's goal weight",
+                                                    "example": "50",
+                                                    "format": "int32"
+                                                },
+                                                "bloodType": {
+                                                    "type": "enteger",
+                                                    "description": "User's blood type",
+                                                    "example": "1",
+                                                    "format": "int32"
+                                                },
+                                                "uniqCategories": {
+                                                    "type": "array",
+                                                    "description": "Not allowed food",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "description": "Not allowed food",
+                                                        "example": "Pizza"
+                                                    }
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "description": "Message",
+                                                    "example": "User's daily norm calories counted successfully"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "age, height, currentWeight, goalWeight, bloodType is required"
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "jwt expired"
+                    }
+                }
+            }
+        },
+        "/calories": {
+            "post": {
+                "tags": [
+                    "Calories"
+                ],
+                "summary": "User daily norm calories",
+                "parameters": [],
+                "requestBody": {
+                    "description": "User's parameters object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CaloriesRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Daily norm calories counted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Success",
+                                            "example": "success"
+                                        },
+                                        "code": {
+                                            "type": "number",
+                                            "description": "200",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "description": "User's daily norm calories + user's not allowed food list",
+                                            "properties": {
+                                                "dailyCalories": {
+                                                    "type": "integer",
+                                                    "description": "User's daily norm calories",
+                                                    "example": "2000",
+                                                    "format": "int32"
+                                                },
+                                                "uniqCategories": {
+                                                    "type": "array",
+                                                    "description": "Not allowed food",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "description": "Not allowed food",
+                                                        "example": "Pizza"
+                                                    }
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "description": "Message",
+                                                    "example": "Calories counted successfully"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "age, height, currentWeight, goalWeight, bloodType is required"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/product/:query": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Search product",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "query",
+                        "description": "Product's name",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Каша 7 злаків Маtti"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product found successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "products": {
+                                            "type": "array",
+                                            "description": "Products",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "title": {
+                                                        "type": "object",
+                                                        "description": "Product's title",
+                                                        "properties": {
+                                                            "ua": {
+                                                                "type": "string",
+                                                                "description": "Product's title in Ukrainian",
+                                                                "example": "Каша 7 злаків Маtti"
+                                                            }
+                                                        }
+                                                    },
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "description": "Product's id generated by mongoDB",
+                                                        "example": "5d51694802b2373622ff556b"
+                                                    },
+                                                    "categories": {
+                                                        "type": "array",
+                                                        "description": "Product's categories",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "description": "Product's category",
+                                                            "example": "зерновые"
+                                                        }
+                                                    },
+                                                    "weight": {
+                                                        "type": "integer",
+                                                        "description": "Product's weight",
+                                                        "example": "100",
+                                                        "format": "int32"
+                                                    },
+                                                    "calories": {
+                                                        "type": "integer",
+                                                        "description": "Product's calories",
+                                                        "example": "100",
+                                                        "format": "int32"
+                                                    },
+                                                    "groupBloodNotAllowed": {
+                                                        "type": "array",
+                                                        "description": "Product's group blood not allowed",
+                                                        "items": {
+                                                            "type": "boolean",
+                                                            "description": "Product's group blood not allowed",
+                                                            "example": "true"
+                                                        },
+                                                        "example": [
+                                                            null,
+                                                            true,
+                                                            false,
+                                                            true,
+                                                            false
+                                                        ]
+                                                    },
+                                                    "__v": {
+                                                        "type": "integer",
+                                                        "description": "Product's version",
+                                                        "example": "0",
+                                                        "format": "int32"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "invalid token or jwt expired"
+                    }
+                }
+            }
+        },
+        "/product/addDiaryFood": {
+            "post": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Add product to diary",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Product's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductDiaryRequest"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "description": "Product's object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "description": "Product added to diary",
+                                                    "example": "Day created, product added to diary or Product added to diary or this product already exists, we have updated it"
+                                                },
+                                                "foodData": {
+                                                    "type": "object",
+                                                    "description": "Product's object",
+                                                    "properties": {
+                                                        "title": {
+                                                            "type": "string",
+                                                            "description": "Product's title",
+                                                            "example": "Каша 7 злаків Маtti"
+                                                        },
+                                                        "weight_g": {
+                                                            "type": "integer",
+                                                            "description": "Product's weight",
+                                                            "example": "100",
+                                                            "format": "int32"
+                                                        },
+                                                        "calories_kcal": {
+                                                            "type": "integer",
+                                                            "description": "Product's calories",
+                                                            "example": "450",
+                                                            "format": "int32"
+                                                        },
+                                                        "_id": {
+                                                            "type": "string",
+                                                            "description": "Product's id generated by mongoDB",
+                                                            "example": "5d51694802b2373622ff556b"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "invalid token or jwt expired"
+                    }
+                }
+            }
+        },
+        "/product/changeProduct": {
+            "patch": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Change product",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Product's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "meal",
+                                    "day"
+                                ],
+                                "properties": {
+                                    "day": {
+                                        "type": "string",
+                                        "description": "Day of the week",
+                                        "example": "12.01.2022"
+                                    },
+                                    "meal": {
+                                        "type": "object",
+                                        "required": [
+                                            "title",
+                                            "weight_g",
+                                            "_id"
+                                        ],
+                                        "properties": {
+                                            "title": {
+                                                "type": "string",
+                                                "description": "Product's title",
+                                                "example": "Яйце куряче (жовток сухий)"
+                                            },
+                                            "weight_g": {
+                                                "type": "number",
+                                                "description": "Product's weight in grams",
+                                                "example": "100"
+                                            },
+                                            "_id": {
+                                                "type": "string",
+                                                "description": "Product's id generated by mongoDB",
+                                                "example": "5d51694802b2373622ff556b"
+                                            }
+                                        },
+                                        "description": "Product's object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product changed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "description": "Product's object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "description": "Product changed successfully",
+                                                    "example": "this product updated "
+                                                },
+                                                "foodData": {
+                                                    "type": "object",
+                                                    "description": "Product's object",
+                                                    "properties": {
+                                                        "title": {
+                                                            "type": "string",
+                                                            "description": "Product's title",
+                                                            "example": "Каша 7 злаків Маtti"
+                                                        },
+                                                        "weight_g": {
+                                                            "type": "number",
+                                                            "description": "Product's weight",
+                                                            "example": "100"
+                                                        },
+                                                        "calories_kcal": {
+                                                            "type": "number",
+                                                            "description": "Product's calories",
+                                                            "example": "450"
+                                                        },
+                                                        "id": {
+                                                            "type": "string",
+                                                            "description": "Product's id generated by mongoDB",
+                                                            "example": "5d51694802b2373622ff556b"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "invalid token or jwt expired or product not found or day not found in diary"
+                    }
+                }
+            }
+        },
+        "/product/delDiaryfood/:day/:id": {
+            "delete": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Delete product from diary",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "day",
+                        "description": "Day of diary",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "01.06.2022"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Product's id",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "5d51694802b2373622ff556b"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "description": "Product's object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "description": "Product delleted in diary",
+                                                    "example": "Product delleted in diary"
+                                                },
+                                                "delletedProduct": {
+                                                    "type": "object",
+                                                    "description": "Product's object",
+                                                    "properties": {
+                                                        "title": {
+                                                            "type": "string",
+                                                            "description": "Product's title",
+                                                            "example": "Каша 7 злаків Маtti"
+                                                        },
+                                                        "weight_g": {
+                                                            "type": "integer",
+                                                            "description": "Product's weight",
+                                                            "example": "100",
+                                                            "format": "int32"
+                                                        },
+                                                        "calories_kcal": {
+                                                            "type": "integer",
+                                                            "description": "Product's calories",
+                                                            "example": "450",
+                                                            "format": "int32"
+                                                        },
+                                                        "_id": {
+                                                            "type": "string",
+                                                            "description": "Product's id generated by mongoDB",
+                                                            "example": "5d51694802b2373622ff556b"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "500": {
+                        "description": "This product is not in the database or jwt expired"
+                    }
+                }
+            }
+        },
+        "/users/verify/{verificationToken}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Verify user",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "verificationToken",
+                        "description": "Token to verify user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "5d51694802b2373622ff556b"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User verified successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Verification successful",
+                                            "example": "Verification successful"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Verification has already been passed"
+                    },
+                    "500": {
+                        "description": "invalid token or jwt expired"
+                    }
+                }
+            }
+        },
+        "/users/verify": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Resending email for verification",
+                "parameters": [],
+                "requestBody": {
+                    "description": "User's email",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "description": "User's email",
+                                        "example": "ola@example.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User verified successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Resend email for verification",
+                                            "example": "Verification email sent again"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Verification has already been passed"
+                    },
+                    "500": {
+                        "description": "invalid token or jwt expired"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RegistrationRequest": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Backend-generated unique identifier"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "User name"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "description": "User's email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "minLength": 6
+                    }
+                },
+                "example": {
+                    "name": "Olala",
+                    "email": "ola@example.com",
+                    "password": "123456"
+                }
+            },
+            "RegistrationResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Success",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "200",
+                        "example": 200
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "verificationToken": {
+                                "type": "string",
+                                "description": "Verification token",
+                                "example": "979b79ad-4a68-4345-9c61-9b7cec9662b4"
+                            },
+                            "message": {
+                                "type": "string",
+                                "description": "User created successfully",
+                                "example": "User created successfully"
+                            }
+                        }
+                    }
+                }
+            },
+            "LoginRequest": {
+                "type": "object",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "description": "User's email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "minLength": 6
+                    }
+                },
+                "example": {
+                    "email": "ola@example.com",
+                    "password": "123456"
+                }
+            },
+            "LoginResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Success",
+                        "example": "success"
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "token": {
+                                "type": "string",
+                                "description": "JWT token"
+                            },
+                            "tokenExpires": {
+                                "type": "string",
+                                "description": "JWT token expiration date"
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "User's email"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "User's name"
+                            },
+                            "dailyCalories": {
+                                "type": "integer",
+                                "description": "User's daily calories"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "status": "success",
+                    "data": {
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2Q1NjU2MzMyNWViYmRhZWY2NWU1ZiIsImlhdCI6MTY1NzYzNTAzMSwiZXhwIjoxNjU3NjM4NjMxfQ.8Y2K6jtuVUIeedsdJZXdpVxM2hsFK0N04C7iQvgcBrM",
+                        "tokenExpires": "2020-06-01T00:00:00.000Z",
+                        "email": "ola@example.com",
+                        "name": "Olala",
+                        "dailyCalories": null
+                    }
+                }
+            },
+            "CurrentResponce": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Success",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "200",
+                        "example": 200
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "User's name"
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "User's email",
+                                "format": "email"
+                            },
+                            "dailyCalories": {
+                                "type": "number",
+                                "description": "User's daily calories",
+                                "example": 2000
+                            },
+                            "notAllowedFood": {
+                                "type": "array",
+                                "description": "Not allowed food",
+                                "example": [
+                                    "Каша 7 злаків Маtti",
+                                    "Pizza",
+                                    "Каша з маєлого брашута"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "DayinfoResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Success",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "200",
+                        "example": 200
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "dailyNormCalories": {
+                                "type": "number",
+                                "description": "Daily norm calories",
+                                "example": 2000
+                            },
+                            "totalDayCalories": {
+                                "type": "number",
+                                "description": "Total day calories",
+                                "example": 1500
+                            },
+                            "difference": {
+                                "type": "number",
+                                "description": "Difference between daily norm calories and total day calories",
+                                "example": 500
+                            },
+                            "percent_of_normal": {
+                                "type": "number",
+                                "description": "Percent of normal",
+                                "example": 50
+                            },
+                            "foodList": {
+                                "type": "array",
+                                "description": "User food list",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "title": {
+                                            "type": "string",
+                                            "description": "Food name"
+                                        },
+                                        "weight_g": {
+                                            "type": "number",
+                                            "description": "Food weight in grams",
+                                            "example": 70
+                                        },
+                                        "calories_kcal": {
+                                            "type": "number",
+                                            "description": "Food calories",
+                                            "example": 100
+                                        },
+                                        "_id": {
+                                            "type": "string",
+                                            "description": "Backend-generated unique identifier"
+                                        }
+                                    }
+                                }
+                            },
+                            "message": {
+                                "type": "string",
+                                "description": "Diary day info",
+                                "example": "Diary day info"
+                            }
+                        }
+                    }
+                }
+            },
+            "CaloriesRequest": {
+                "type": "object",
+                "description": "User's parameters object",
+                "required": [
+                    "height",
+                    "currentWeight",
+                    "age",
+                    "goalWeight",
+                    "bloodType"
+                ],
+                "properties": {
+                    "currentWeight": {
+                        "type": "integer",
+                        "description": "Current weight",
+                        "example": "75",
+                        "format": "int32"
+                    },
+                    "height": {
+                        "type": "integer",
+                        "description": "User's height",
+                        "example": "175",
+                        "format": "int32"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "description": "User's age",
+                        "example": "20",
+                        "format": "int32"
+                    },
+                    "goalWeight": {
+                        "type": "integer",
+                        "description": "User's goal weight",
+                        "example": "50",
+                        "format": "int32"
+                    },
+                    "bloodType": {
+                        "type": "enteger",
+                        "description": "User's blood type",
+                        "example": "1",
+                        "format": "int32"
+                    }
+                }
+            },
+            "ProductDiaryRequest": {
+                "type": "object",
+                "description": "User's parameters object",
+                "required": [
+                    "diary_day",
+                    "meal"
+                ],
+                "properties": {
+                    "diary_day": {
+                        "type": "string",
+                        "description": "Diary day",
+                        "example": "01.10.2022"
+                    },
+                    "meal": {
+                        "type": "object",
+                        "description": "Meal",
+                        "required": [
+                            "title",
+                            "weight_g"
+                        ],
+                        "properties": {
+                            "title": {
+                                "type": "string",
+                                "description": "Food name",
+                                "example": "Каша 7 злаків Маtti"
+                            },
+                            "weight_g": {
+                                "type": "integer",
+                                "description": "Food weight in grams",
+                                "example": "70",
+                                "format": "int32"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "http",
+                "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                "scheme": "Bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
