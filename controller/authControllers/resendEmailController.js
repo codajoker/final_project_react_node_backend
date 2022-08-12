@@ -2,6 +2,7 @@ const createError = require("http-errors");
 
 const { User } = require("../../service/shemas/shema");
 const { sendEmail } = require("../../helpers");
+const createEmailTemplate = require("../../helpers/createEmailTemplate");
 
 const resendEmailController = async (req, res) => {
   const { email } = req.body;
@@ -13,13 +14,14 @@ const resendEmailController = async (req, res) => {
     throw createError(400, "Verification has already been passed");
   }
 
-  const confirmEmail = {
-    to: email,
-    subject: "Confirm email again",
-    html: `<p>Для повторного підтвердження електронної адреси перейдіть за посиланням - slimmom-webhive.netlify.app/verify/${verificationToken}</p>`,
-  };
+  const emailTemp = createEmailTemplate(
+    email,
+    "Повторне підтвердження email",
+    "Для підтвердження електронної адреси натисніть на кнопку",
+    verificationToken
+  );
 
-  await sendEmail(confirmEmail);
+  await sendEmail(emailTemp);
 
   res.json({
     message: "Verification email sent again",
