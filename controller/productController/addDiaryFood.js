@@ -5,14 +5,14 @@ const { caloriesMealCaluculator } = require("../../helpers");
 const addDiaryFood = async (req, res) => {
   const { _id } = req.user;
   const { diary_day, meal } = req.body;
-  const { title, weight_g } = meal;
-  const mealInDay = await Product.findOne({ "title.ua": title });
+  const { _id: id_meal, weight_g } = meal;
+  const mealInDay = await Product.findOne({ id_meal });
 
   if (mealInDay === null) {
-    throw Error(`"There is no ${title} in the base"`);
+    throw Error(`"There is no product in the base"`);
   } else {
     const diaryDay = await FoodDiary.findOne({ diary_day, owner: _id });
-    const { calories, weight } = mealInDay;
+    const { title, calories, weight } = mealInDay;
     const calories_kcal = caloriesMealCaluculator(weight_g, weight, calories);
 
     if (!diaryDay) {
@@ -33,7 +33,7 @@ const addDiaryFood = async (req, res) => {
       const caloriesResult = calories_in_day + calories_kcal;
 
       const findedProductInDiaryDay = diaryDay.meal.find(
-        (item) => item.title === title
+        (item) => JSON.stringify(item.title) === JSON.stringify(title)
       );
       const index = diaryDay.meal.indexOf(findedProductInDiaryDay);
 
