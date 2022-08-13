@@ -3,6 +3,7 @@ const { User } = require("../../service/shemas/shema");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 const { sendEmail } = require("../../helpers");
+const createEmailTemplate = require("../../helpers/createEmailTemplate");
 
 const registerController = async (req, res) => {
   const { name, email, password } = req.body;
@@ -21,13 +22,14 @@ const registerController = async (req, res) => {
     verificationToken,
   });
 
-  const mail = {
-    to: email,
-    subject: "Подверждение email",
-    html: `<p>Для підтвердження електронної адреси перейдіть за посиланням - slimmom-webhive.netlify.app/verify/${verificationToken}</p>`,
-  };
+  const emailTemp = createEmailTemplate(
+    email,
+    "Підтвердження email",
+    "Для підтвердження електронної адреси натисніть на кнопку",
+    verificationToken
+  );
 
-  await sendEmail(mail);
+  await sendEmail(emailTemp);
 
   return res.status(200).json({
     status: "success",
