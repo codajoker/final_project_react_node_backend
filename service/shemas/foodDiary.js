@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const mealSchema = new Schema({
   title: {
-    type: String,
+    type: Object,
     required: [true, "Title is required"],
   },
   weight_g: {

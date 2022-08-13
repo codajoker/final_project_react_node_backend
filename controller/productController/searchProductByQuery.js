@@ -15,16 +15,16 @@ const searchProductByQuery = async (req, res) => {
         },
         { "title.ua": 1 }
       );
-      res.status(200).json({ productsUa });
+      res.status(200).json({ products: productsUa });
       break;
     case "en":
-      const productsEn = await Product.findOne(
+      const productsEn = await Product.find(
         {
           "title.en": { $regex: new RegExp(escapedQuery, "i") },
         },
         { "title.en": 1 }
       );
-      res.status(200).json({ productsEn });
+      res.status(200).json({ products: productsEn });
       break;
     case "de":
       const productsDe = await Product.find(
@@ -33,7 +33,7 @@ const searchProductByQuery = async (req, res) => {
         },
         { "title.de": 1 }
       );
-      res.status(200).json({ productsDe });
+      res.status(200).json({ products: productsDe });
       break;
     case "pl":
       const productsPl = await Product.find(
@@ -42,7 +42,7 @@ const searchProductByQuery = async (req, res) => {
         },
         { "title.pl": 1 }
       );
-      res.status(200).json({ productsPl });
+      res.status(200).json({ products: productsPl });
       break;
 
     default:
