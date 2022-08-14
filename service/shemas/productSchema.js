@@ -28,7 +28,7 @@ const productSchema = Schema(
         type: String,
         required: [true, "Title is required"],
       },
-      dl: {
+      de: {
         type: String,
         required: [true, "Title is required"],
       },
