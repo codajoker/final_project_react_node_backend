@@ -6,7 +6,7 @@ const addDiaryFood = async (req, res) => {
   const { _id } = req.user;
   const { diary_day, meal } = req.body;
   const { _id: id_meal, weight_g } = meal;
-  const mealInDay = await Product.findOne({ id_meal });
+  const mealInDay = await Product.findOne({ _id: id_meal });
 
   if (mealInDay === null) {
     throw Error(`"There is no product in the base"`);
@@ -35,6 +35,7 @@ const addDiaryFood = async (req, res) => {
       const findedProductInDiaryDay = diaryDay.meal.find(
         (item) => JSON.stringify(item.title) === JSON.stringify(title)
       );
+
       const index = diaryDay.meal.indexOf(findedProductInDiaryDay);
 
       if (index !== -1) {
