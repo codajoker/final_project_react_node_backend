@@ -7,42 +7,43 @@ function escapeRegExp(string) {
 const searchProductByQuery = async (req, res) => {
   const { name, lang } = req.query;
   const escapedQuery = escapeRegExp(name);
+  let products = [];
   switch (lang) {
     case "ua":
-      const productsUa = await Product.find(
+      products = await Product.find(
         {
           "title.ua": { $regex: new RegExp(escapedQuery, "i") },
         },
         { "title.ua": 1 }
       );
-      res.status(200).json({ productsUa });
+      res.status(200).json({ products });
       break;
     case "en":
-      const productsEn = await Product.findOne(
+      products = await Product.find(
         {
           "title.en": { $regex: new RegExp(escapedQuery, "i") },
         },
         { "title.en": 1 }
       );
-      res.status(200).json({ productsEn });
+      res.status(200).json({ products });
       break;
     case "de":
-      const productsDe = await Product.find(
+      products = await Product.find(
         {
           "title.de": { $regex: new RegExp(escapedQuery, "i") },
         },
         { "title.de": 1 }
       );
-      res.status(200).json({ productsDe });
+      res.status(200).json({ products });
       break;
     case "pl":
-      const productsPl = await Product.find(
+      products = await Product.find(
         {
           "title.pl": { $regex: new RegExp(escapedQuery, "i") },
         },
         { "title.pl": 1 }
       );
-      res.status(200).json({ productsPl });
+      res.status(200).json({ products });
       break;
 
     default:
