@@ -2,8 +2,26 @@ const { Schema, model } = require("mongoose");
 
 const mealSchema = new Schema({
   title: {
-    type: Object,
-    required: [true, "Title is required"],
+    ru: {
+      type: String,
+      required: [true, "Title is required"],
+    },
+    ua: {
+      type: String,
+      required: [true, "Title is required"],
+    },
+    en: {
+      type: String,
+      required: [true, "Title is required"],
+    },
+    pl: {
+      type: String,
+      required: [true, "Title is required"],
+    },
+    de: {
+      type: String,
+      required: [true, "Title is required"],
+    },
   },
   weight_g: {
     type: Number,
