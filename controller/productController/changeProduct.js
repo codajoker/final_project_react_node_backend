@@ -8,7 +8,6 @@ const changeProduct = async (req, res) => {
     diary_day: day,
     owner: _id,
   });
-  console.log(diaryDay.meal);
   if (diaryDay) {
     const findProduct = diaryDay.meal.find(
       (item) => item.id.toString() === meal_id
