@@ -1,5 +1,6 @@
 const { User } = require("../../service/shemas/shema");
 const { sendEmail } = require("../../helpers");
+const createEmailTemplate = require("../../helpers/createEmailTemplate");
 
 const sandRefreshPasswordEmail = async (req, res) => {
   const { email } = req.body;
@@ -7,15 +8,19 @@ const sandRefreshPasswordEmail = async (req, res) => {
 
   if (user) {
     const userId = user._id.toString();
-    const refreshPasswordEmail = {
-      to: email,
-      subject: "Refresh Password",
-      html: `<p>Для скидання паролю перейдіть за посиланням - http://localhost:3000/reset-password/${userId}</p>`,
-    };
-    await sendEmail(refreshPasswordEmail);
+
+    const refreshPasswordMail = createEmailTemplate(
+      email,
+      "Оновлення паролю",
+      "Для оновлення паролю натисніть на кнопку",
+      `reset-password/${userId}`
+    );
+
+    await sendEmail(refreshPasswordMail);
     res.status(200).json({ message: "Password reset email has been sent" });
   } else {
-  throw Error("User not found");
+    throw Error("User not found");
   }
 };
+
 module.exports = sandRefreshPasswordEmail;

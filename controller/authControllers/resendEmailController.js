@@ -18,7 +18,7 @@ const resendEmailController = async (req, res) => {
     email,
     "Повторне підтвердження email",
     "Для підтвердження електронної адреси натисніть на кнопку",
-    verificationToken
+    `verify/${verificationToken}`
   );
 
   await sendEmail(emailTemp);
