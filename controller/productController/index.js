@@ -1,9 +1,9 @@
 const addDiaryFood = require("./addDiaryFood");
-const delDiaryFood = require("./delDiaryFood");
+const deleteDiaryFood = require("./deleteDiaryFood");
 const searchProductByQuery = require("./searchProductByQuery");
 
 module.exports = {
   addDiaryFood,
-  delDiaryFood,
+  deleteDiaryFood,
   searchProductByQuery,
 };

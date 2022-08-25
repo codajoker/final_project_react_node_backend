@@ -27,18 +27,22 @@ const addDiaryFood = async (req, res) => {
         message: "Day created, product added to diary",
       });
     } else {
+
       diaryDay.calories_in_day += calories_kcal;
       const existingProduct = diaryDay.products.find((item) =>
         item._id.equals(productId)
       );
       if (existingProduct) {
         existingProduct.weight_g = existingProduct.weight_g + weight_g;
-        existingProduct.calories_kcal =
-          existingProduct.calories_kcal + calories_kcal;
+        existingProduct.calories_kcal = existingProduct.calories_kcal + calories_kcal;
+        let existingMeal = existingProduct.meal.includes(meal);
+          if(existingMeal === false){
+            existingProduct.meal.push(meal)
+          }
         await diaryDay.save();
         return res.status(200).json({
           message: "this product already exists, we have updated it",
-          productData: existingProduct,
+          foodData: existingProduct,
         });
       }
       diaryDay.products.unshift({
@@ -47,7 +51,7 @@ const addDiaryFood = async (req, res) => {
       await diaryDay.save();
       res.status(200).json({
         message: "Product added to diary",
-        productData: diaryDay.products[0],
+        foodData: diaryDay.products[0],
       });
     }
   }

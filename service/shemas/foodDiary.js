@@ -31,7 +31,7 @@ const productSchema = new Schema({
     type: Number,
   },
   meal: {
-    type: String,
+    type: Array,
   }
 });
 

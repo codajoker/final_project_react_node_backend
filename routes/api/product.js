@@ -7,7 +7,7 @@ const { auth } = require("../../middleware/auth");
 const {
   searchProductByQuery,
   addDiaryFood,
-  delDiaryFood,
+  deleteDiaryFood,
 } = require("../../controller/productController");
 const {
   changeProduct,
@@ -15,7 +15,7 @@ const {
 
 router.get("/", auth, ctrlWrapper(searchProductByQuery));
 router.post("/addDiaryFood", auth, ctrlWrapper(addDiaryFood));
-router.delete("/delDiaryfood", auth, ctrlWrapper(delDiaryFood));
+router.delete("/deleteDiaryFood", auth, ctrlWrapper(deleteDiaryFood));
 router.patch("/changeProduct", auth, ctrlWrapper(changeProduct));
 
 module.exports = router;
