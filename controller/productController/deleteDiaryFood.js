@@ -2,14 +2,14 @@ const { FoodDiary } = require("../../service/shemas/foodDiary");
 
 const deleteDiaryFood = async (req, res) => {
   const { _id } = req.user;
-  const { day: diary_day, id: meal_id } = req.query;
+  const { day: diary_day, id: meal_id, meal } = req.query;
 
   const diaryDay = await FoodDiary.findOne({
     diary_day,
     owner: _id,
   });
 
-  const deletedProduct = diaryDay.products.find((item) => item._id.equals(meal_id));
+  const deletedProduct = diaryDay.products.find((item) => item._id.equals(meal_id) && item.meal === meal);
   if (deletedProduct) {
     let kcalInDay = 0;
     diaryDay.products.forEach((item) => {

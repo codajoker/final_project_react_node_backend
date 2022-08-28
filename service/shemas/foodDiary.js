@@ -31,7 +31,7 @@ const productSchema = new Schema({
     type: Number,
   },
   meal: {
-    type: Array,
+    type: String,
   }
 });
 
@@ -39,7 +39,7 @@ const foodDiarySchema = Schema(
   {
     diary_day: {
       type: String,
-      required: [true, "Dayry day is required"],
+      required: [true, "Diary day is required"],
     },
     products: [productSchema],
     calories_in_day: {
