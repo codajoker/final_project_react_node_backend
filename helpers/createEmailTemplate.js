@@ -1,9 +1,4 @@
-function createEmailTemplate(
-  email,
-  subjectText,
-  emailMessage,
-  verificationToken
-) {
+function createEmailTemplate(email, subjectText, emailMessage, urlAndUserData) {
   return {
     to: email,
     subject: subjectText,
@@ -107,7 +102,6 @@ table.body .article {
 </style>
   </head>
   <body style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
-    <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f6f6f6; width: 100%;" width="100%" bgcolor="#f6f6f6">
       <tr>
         <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;" valign="top">&nbsp;</td>
@@ -132,7 +126,7 @@ table.body .article {
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
                                   <tbody>
                                     <tr>
-                                      <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; border-radius: 5px; text-align: center; background-color: rgb(252, 132, 45);" valign="top" align="center" bgcolor="#3498db"> <a href="http://slimmom-webhive.netlify.app/verify/${verificationToken}" target="_blank" style="border: solid 1px rgb(252, 132, 45); border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: rgb(252, 132, 45); border-color: rgb(252, 132, 45); color: #ffffff;">Підтвердити</a> </td>
+                                      <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; border-radius: 5px; text-align: center; background-color: rgb(252, 132, 45);" valign="top" align="center" bgcolor="#3498db"> <a href="http://slimmom-webhive.netlify.app/${urlAndUserData}"  target="_blank" style="border: solid 1px rgb(252, 132, 45); border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: rgb(252, 132, 45); border-color: rgb(252, 132, 45); color: #ffffff;">Підтвердити</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>

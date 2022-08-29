@@ -26,7 +26,7 @@ const registerController = async (req, res) => {
     email,
     "Підтвердження email",
     "Для підтвердження електронної адреси натисніть на кнопку",
-    verificationToken
+    `verify/${verificationToken}`
   );
 
   await sendEmail(emailTemp);
