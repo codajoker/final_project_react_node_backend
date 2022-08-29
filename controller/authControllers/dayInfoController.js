@@ -20,16 +20,13 @@ const dayInfoController = async (req, res) => {
     return res.status(404).json({ message: "Day not found", foodList: [] });
   }
 
-  const foodList = findedListDay.meal;
+  const foodList = findedListDay.products;
   const totalDayCalories = foodList.reduce(
     (acc, item) => acc + item.calories_kcal,
     0
   );
 
   return res.status(200).json({
-    status: "success",
-    code: 200,
-    data: {
       dailyNormCalories: user.dailyCalories,
       totalDayCalories,
       difference: user.dailyCalories - totalDayCalories,
@@ -39,7 +36,6 @@ const dayInfoController = async (req, res) => {
       ).toFixed(),
       foodList,
       message: "Diary day info",
-    },
   });
 };
 

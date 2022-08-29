@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const mealSchema = new Schema({
+const productSchema = new Schema({
   title: {
     ru: {
       type: String,
@@ -30,15 +30,18 @@ const mealSchema = new Schema({
   calories_kcal: {
     type: Number,
   },
+  meal: {
+    type: String,
+  }
 });
 
 const foodDiarySchema = Schema(
   {
     diary_day: {
       type: String,
-      required: [true, "Dayry day is required"],
+      required: [true, "Diary day is required"],
     },
-    meal: [mealSchema],
+    products: [productSchema],
     calories_in_day: {
       type: Number,
       default: 0,

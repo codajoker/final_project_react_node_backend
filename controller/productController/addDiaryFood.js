@@ -3,81 +3,51 @@ const { Product } = require("../../service/shemas/productSchema");
 const { caloriesMealCaluculator } = require("../../helpers");
 
 const addDiaryFood = async (req, res) => {
-  const { _id } = req.user;
-  const { diary_day, meal } = req.body;
-  const { _id: id_meal, weight_g } = meal;
-  const mealInDay = await Product.findOne({ _id: id_meal });
+  const { _id: userId } = req.user;
+  const { diary_day, product } = req.body;
+  const { _id: id_meal, weight_g, meal } = product;
+  const findedProduct = await Product.findOne({ _id: id_meal });
 
-  if (mealInDay === null) {
+  if (findedProduct === null) {
     throw Error(`"There is no product in the base"`);
   } else {
-    const diaryDay = await FoodDiary.findOne({ diary_day, owner: _id });
-    const { title, calories, weight } = mealInDay;
+    const diaryDay = await FoodDiary.findOne({ diary_day, owner: userId });
+    const { title, calories, weight, _id: productId } = findedProduct;
     const calories_kcal = caloriesMealCaluculator(weight_g, weight, calories);
 
     if (!diaryDay) {
       const foodData = await FoodDiary.create({
         diary_day,
-        meal: [{ title, weight_g, calories_kcal }],
+        products: [{ title, weight_g, calories_kcal, meal, _id: productId }],
         calories_in_day: calories_kcal,
-        owner: _id,
+        owner: userId,
       });
       res.status(200).json({
-        data: {
-          foodData: foodData.meal[0],
-          message: "Day created, product added to diary",
-        },
+        productData: foodData.products[0],
+        message: "Day created, product added to diary",
       });
     } else {
-      const { meal, calories_in_day } = diaryDay;
-      const caloriesResult = calories_in_day + calories_kcal;
-
-      const findedProductInDiaryDay = diaryDay.meal.find(
-        (item) => JSON.stringify(item.title) === JSON.stringify(title)
+      diaryDay.calories_in_day += calories_kcal;
+      const existingProduct = diaryDay.products.find((item) =>
+        item._id.equals(productId) && item.meal === meal
       );
-
-      const index = diaryDay.meal.indexOf(findedProductInDiaryDay);
-
-      if (index !== -1) {
-        const updateMeal = {
-          title,
-          weight_g: findedProductInDiaryDay.weight_g + weight_g,
-          calories_kcal: findedProductInDiaryDay.calories_kcal + calories_kcal,
-          _id: findedProductInDiaryDay._id,
-        };
-        const newMealInday = diaryDay.meal;
-        newMealInday.splice(index, 1, updateMeal);
-
-        const foodData = await FoodDiary.findByIdAndUpdate(
-          diaryDay._id,
-          {
-            meal: newMealInday,
-            calories_in_day: caloriesResult,
-          },
-          { new: true }
-        );
+      if (existingProduct) {
+        existingProduct.weight_g = existingProduct.weight_g + weight_g;
+        existingProduct.calories_kcal =
+        existingProduct.calories_kcal + calories_kcal;
+        await diaryDay.save();
         return res.status(200).json({
-          data: {
-            message: "this product already exists, we have updated it",
-            foodData: foodData.meal[index],
-          },
+          message: "this product already exists, we have updated it",
+          foodData: existingProduct,
         });
       }
-
-      const newMealInday = [{ title, weight_g, calories_kcal }, ...meal];
-      const foodData = await FoodDiary.findByIdAndUpdate(
-        diaryDay._id,
-        {
-          meal: newMealInday,
-          calories_in_day: caloriesResult,
-        },
-        { new: true }
-      );
+      diaryDay.products.unshift({
+        title, weight_g, calories_kcal, meal, _id: findedProduct._id, 
+      });
+      await diaryDay.save();
       res.status(200).json({
-        data: {
-          message: "Product added to diary",
-          foodData: foodData.meal[0],
-        },
+        message: "Product added to diary",
+        foodData: diaryDay.products[0],
       });
     }
   }
