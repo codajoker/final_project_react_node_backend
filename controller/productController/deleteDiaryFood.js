@@ -9,26 +9,22 @@ const deleteDiaryFood = async (req, res) => {
     owner: _id,
   });
 
-  const deletedProduct = diaryDay.products.find((item) => item._id.equals(meal_id) && item.meal === meal);
+  const deletedProduct = diaryDay.products.find(
+    (item) => item._id.equals(meal_id) && item.meal === meal
+  );
   if (deletedProduct) {
-    let kcalInDay = 0;
-    diaryDay.products.forEach((item) => {
-      if (!item._id.equals(meal_id)) {
-        kcalInDay = kcalInDay + item.calories_kcal;
-      }
-    });
-    await FoodDiary.findOneAndUpdate(
-      { diary_day, owner: _id },
-      { $pull: { products: { _id: meal_id } }, calories_in_day: kcalInDay }
+    diaryDay.calories_in_day -= deletedProduct.calories_kcal;
+    diaryDay.products = diaryDay.products.filter(
+      (product) => product !== deletedProduct
     );
+    await diaryDay.save();
     res.status(200).json({
       message: "Product deleted in diary",
       product: deletedProduct,
     });
   } else {
-    throw Error(`"This product is not in the database"`);
+    throw Error("This product is not in the database");
   }
- 
 };
 
 module.exports = deleteDiaryFood;

@@ -2,42 +2,27 @@ const { FoodDiary } = require("../../service/shemas/foodDiary");
 
 const changeProduct = async (req, res) => {
   const { _id } = req.user;
-  const { day, product } = req.body;
+  const { diary_day, product } = req.body;
   const { weight_g, _id: meal_id, meal} = product;
   const diaryDay = await FoodDiary.findOne({
-    diary_day: day,
+    diary_day,
     owner: _id,
   });
   if (diaryDay) {
     const existingProduct = diaryDay.products.find((item) =>
       item._id.equals(meal_id) && item.meal === meal
     );
-
     if (existingProduct) {
-      const newCaloriesMeal =
-        (existingProduct.calories_kcal / existingProduct.weight_g) * weight_g;
-      const newCalories =
-        diaryDay.calories_in_day -
-        existingProduct.calories_kcal +
-        newCaloriesMeal;
-
+      diaryDay.calories_in_day -= existingProduct.calories_kcal
+      existingProduct.calories_kcal = 
+      (existingProduct.calories_kcal / existingProduct.weight_g) * weight_g;
+      existingProduct.weight_g = weight_g;
+      diaryDay.calories_in_day += existingProduct.calories_kcal 
       const index = diaryDay.products.indexOf(existingProduct);
-
-      const foodData = await FoodDiary.findOneAndUpdate(
-        { _id: diaryDay._id, "products._id": meal_id },
-        {
-          $set: {
-            "products.$.weight_g": weight_g,
-            "products.$.calories_kcal": newCaloriesMeal,
-          },
-          calories_in_day: newCalories,
-        },
-        { new: true }
-      );
-
+      await diaryDay.save();
       return res.status(200).json({
         message: "Product updated successfully",
-        foodData: foodData.products[index],
+        foodData: diaryDay.products[index],
       });
     }
     throw Error("Product not found in diary");
