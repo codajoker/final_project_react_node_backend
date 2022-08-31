@@ -2,7 +2,7 @@ const { FoodDiary } = require("../../service/shemas/foodDiary");
 
 const changeProduct = async (req, res) => {
   const { _id } = req.user;
-  const { diary_day, product } = req.body;
+  const { day: diary_day, product } = req.body;
   const { weight_g, _id: meal_id, meal} = product;
   const diaryDay = await FoodDiary.findOne({
     diary_day,
